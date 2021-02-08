@@ -6,12 +6,41 @@ import { NavigationContainer } from '@react-navigation/native';
 class App extends Component{
   constructor(props){
     super(props);
+
+    this.state = {
+      isLoading: false,
+      email: "",
+      password: ""
+    };
   }
 
-  state={
-    email: "",
-    paassword: ""
-  }
+  login()
+  {
+    let to_send = {
+      email: this.state.email,
+      password: this.state.password
+    }
+
+    return fetch("http://10.0.2.2:3333/api/1.0.0/user/login", {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(to_send)
+    })
+    .then((response) => {
+      if(response.status == 200)
+      {
+        Alert.alert("Login success");
+      }
+      else {
+        Alert.alert("Login failure");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  };
 
   render(){
     return (
@@ -35,7 +64,7 @@ class App extends Component{
           />
         </View>
 
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity style={styles.loginBtn} onPress={() => this.login()}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
 
