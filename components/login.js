@@ -13,36 +13,43 @@ class Login extends Component{
     };
   }
 
-  login()
+  login = async() =>
   {
     let to_send = {
       email: this.state.email,
       password: this.state.password
     }
 
-    return fetch("http://10.0.2.2:3333/api/1.0.0/user/login", {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(to_send)
-    })
-    .then((response) => {
+    try {
+      let response = await fetch("http://10.0.2.2:3333/api/1.0.0/user/login", {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(to_send)
+      })
+  
+      let json = await response.json();
+  
       if(response.status == 200)
       {
-        Alert.alert("Login success");
+          Alert.alert("Login success. Auth Token: " +json['token']);
       }
+  
       else if(response.status === 400)
       {
-        Alert.alert("Incorrect login details, please check your details and try again.")
+          Alert.alert("Incorrect login details, please check your details and try again.")
       }
-      else {
-        Alert.alert("Server error, please try again later");
+  
+      else 
+      {
+          Alert.alert("Server error, please try again later");
       }
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+    }
+    catch(error) {
+      console.log(error)
+      Alert.alert("Something went wrong. Plase try again")
+    }
   };
 
   render(){
