@@ -7,8 +7,6 @@ class Home extends Component{
   constructor(props){
     super(props);
 
-
-
     this.state = {
       isLoading: false,
       email: "",
@@ -35,32 +33,7 @@ class Home extends Component{
 
     return (
       <View style={styles.container}>
-        <Text style={styles.logo} ariaLabel='Coffida'>COFFIDA</Text>
-        <View style={styles.inputView}>
-          <TextInput 
-          style={styles.inputText}
-          placeholder="Email address"
-          placeholderTextColor="#FFF"
-          onChangeText={text => this.setState({email:text})}/>
-        </View>
-
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Password"
-            placeholderTextColor="#FFF"
-            secureTextEntry={true}
-            onChangeText={text => this.setState({password:text})}
-          />
-        </View>
-
-        <TouchableOpacity style={styles.loginBtn} onPress={() => this.login()}>
-          <Text style={styles.loginText}>TEST BUTTON</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.loginText}>Signup</Text>
-        </TouchableOpacity>
+        <Text style={styles.logo}>COFFIDA</Text>
       </View>
     );
   };
@@ -69,15 +42,16 @@ class Home extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003f5c',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: '#FFF',
   },
   logo: {
     fontWeight: "bold",
     fontSize: 50,
     color: "#fb5b5a",
-    marginBottom: 40
+    marginBottom: 40,
+    justifyContent: "center",
+    alignItems: "center"
+
   },
   inputView: {
     width: "80%",

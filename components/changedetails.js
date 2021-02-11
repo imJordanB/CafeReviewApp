@@ -3,59 +3,18 @@ import React, { Component } from 'react';
 import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-class Login extends Component{
+class ChangeDetails extends Component{
   constructor(props){
     super(props);
 
     this.state = {
       isLoading: false,
+      firstName: "",
+      lastName: "",
       email: "",
       password: ""
     };
   }
-
-  login = async() =>
-  {
-    let to_send = {
-      email: this.state.email,
-      password: this.state.password
-    }
-
-    try {
-      let response = await fetch("http://10.0.2.2:3333/api/1.0.0/user/login", {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(to_send)
-      })
-  
-      let json = await response.json();
-  
-      if(response.status == 200)
-      {
-          // Alert.alert("Login success. Auth Token: " +json['token']);
-
-          await AsyncStorage.setItem("auth-token", json['token'])
-
-          this.props.navigation.navigate('Menu');
-      }
-  
-      else if(response.status === 400)
-      {
-          Alert.alert("Incorrect login details, please check your details and try again.")
-      }
-  
-      else 
-      {
-          Alert.alert("Server error, please try again later");
-      }
-    }
-    catch(error) {
-      console.log(error)
-      Alert.alert("Something went wrong. Plase try again")
-    }
-  };
 
   render(){
 
@@ -63,7 +22,24 @@ class Login extends Component{
 
     return (
       <View style={styles.container}>
-        <Text style={styles.logo} ariaLabel='Coffida'>COFFIDA</Text>
+        <Text style={styles.logo}>COFFIDA</Text>
+
+        <View style={styles.inputView}>
+          <TextInput 
+          style={styles.inputText}
+          placeholder="First name"
+          placeholderTextColor="#FFF"
+          onChangeText={text => this.setState({firstName:text})}/>
+        </View>
+
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.inputText}
+            placeholder="Last name"
+            placeholderTextColor="#FFF"
+            onChangeText={text => this.setState({lastName:text})}
+          />
+        </View>
         <View style={styles.inputView}>
           <TextInput 
           style={styles.inputText}
@@ -81,14 +57,6 @@ class Login extends Component{
             onChangeText={text => this.setState({password:text})}
           />
         </View>
-
-        <TouchableOpacity style={styles.loginBtn} onPress={() => this.login()}>
-          <Text style={styles.loginText}>LOGIN</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.loginText}>Signup</Text>
-        </TouchableOpacity>
       </View>
     );
   };
@@ -97,15 +65,16 @@ class Login extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003f5c',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: '#FFF',
   },
   logo: {
     fontWeight: "bold",
     fontSize: 50,
     color: "#fb5b5a",
-    marginBottom: 40
+    marginBottom: 40,
+    justifyContent: "center",
+    alignItems: "center"
+
   },
   inputView: {
     width: "80%",
@@ -145,4 +114,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login;
+export default ChangeDetails;
