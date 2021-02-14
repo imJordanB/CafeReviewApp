@@ -30,18 +30,19 @@ class Login extends Component{
         body: JSON.stringify(to_send)
       })
   
-      let json = await response.json();
-  
       if(response.status == 200)
       {
           // Alert.alert("Login success. Auth Token: " +json['token']);
 
+          let json = await response.json();
+
           await AsyncStorage.setItem("auth-token", json['token'])
+          await AsyncStorage.setItem("user-id", json['id'].toString())
 
           this.props.navigation.navigate('Menu');
       }
   
-      else if(response.status === 400)
+      else if(response.status == 400)
       {
           Alert.alert("Incorrect login details, please check your details and try again.")
       }
