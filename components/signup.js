@@ -38,12 +38,19 @@ class Signup extends Component{
         this.props.navigation.navigate('Login');
         
       }
+      else if(response.status == 400){
+        Alert.alert("Error: Bad request");
+      }
+      else if(response.status == 500) {
+        Alert.alert("There was a problem with the server, please try again later");
+      }
       else {
-        Alert.alert("Signup failure");
+        Alert.alert("Something went wrong");
       }
     })
     .catch((error) => {
       console.log(error);
+      Alert.alert(error);
     })
   };
 

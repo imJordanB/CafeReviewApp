@@ -48,14 +48,14 @@ class SignOut extends Component{
             this.props.navigation.navigate('Login');
         }
     
-        else if(response.status == 400)
+        else if(response.status == 401)
         {
-            Alert.alert("Incorrect login details, please check your details and try again.")
+            Alert.alert("Error: Unauthorised")
         }
     
-        else 
+        else if(response.status == 500) 
         {
-            Alert.alert("Server error, please try again later");
+            Alert.alert("There is a problem with the server, please try again later");
         }
       }
       catch(error) {
