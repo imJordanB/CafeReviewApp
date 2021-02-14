@@ -4,7 +4,7 @@ import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { interpolate } from 'react-native-reanimated';
 
-class ChangeDetails extends Component{
+class SignOut extends Component{
   constructor(props){
     super(props);
 
@@ -17,14 +17,8 @@ class ChangeDetails extends Component{
     };
   }
 
-  changeDetails = async() =>
+  signOut = async() =>
   {
-    if(this.state.firstName == "" && this.state.lastName == "" && this.state.email == "" && this.state.password == "")
-    {
-      Alert.alert("No changes, please enter details for the fields you wish to change")
-    }
-    else
-    {
       let to_send = {
         first_name: this.state.firstName == "" ? undefined : this.state.firstName,
         last_name: this.state.lastName == "" ? undefined : this.state.lastName,
@@ -36,21 +30,22 @@ class ChangeDetails extends Component{
       let authToken = await AsyncStorage.getItem("auth-token")
   
       try {
-        let response = await fetch("http://10.0.2.2:3333/api/1.0.0/user/" +userId, {
-          method: 'patch',
+        let response = await fetch("http://10.0.2.2:3333/api/1.0.0/user/logout", {
+          method: 'post',
           headers: {
             'Content-Type': 'application/json',
             'X-Authorization': authToken
-          },
-          body: JSON.stringify(to_send)
+          }
         })
     
         if(response.status == 200)
         {
             // Alert.alert("Login success. Auth Token: " +json['token']);
-            Alert.alert("Success");
+            Alert.alert("Successfully logged out");
+
+            await AsyncStorage.multiRemove(["user-id", "auth-token"]);
   
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('Login');
         }
     
         else if(response.status == 400)
@@ -67,56 +62,19 @@ class ChangeDetails extends Component{
         console.log(error)
         Alert.alert("Something went wrong. Plase try again")
       }
-    }
+    
   };
 
+  componentDidMount(){
+    this.signOut();
+  }
+
   render(){
-
-    const navigation = this.props.navigation;
-
-    return (
-      <View style={styles.container}>
-        <Text style={styles.logo}>COFFIDA</Text>
-
-        <View style={styles.inputView}>
-          <TextInput 
-          style={styles.inputText}
-          placeholder="First name (optional)"
-          placeholderTextColor="#FFF"
-          onChangeText={text => this.setState({firstName:text})}/>
-        </View>
-
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Last name (optional)"
-            placeholderTextColor="#FFF"
-            onChangeText={text => this.setState({lastName:text})}
-          />
-        </View>
-        <View style={styles.inputView}>
-          <TextInput 
-          style={styles.inputText}
-          placeholder="Email address (optional)"
-          placeholderTextColor="#FFF"
-          onChangeText={text => this.setState({email:text})}/>
-        </View>
-
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Password (optional)"
-            placeholderTextColor="#FFF"
-            secureTextEntry={true}
-            onChangeText={text => this.setState({password:text})}
-          />
-        </View>
-
-        <TouchableOpacity style={styles.loginBtn} onPress={() => this.changeDetails()}>
-          <Text style={styles.loginText}>Change details</Text>
-        </TouchableOpacity>
+    return(
+      <View>
+        <Text>Signing out...</Text>
       </View>
-    );
+    )
   };
 }
 
@@ -172,4 +130,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ChangeDetails;
+export default SignOut;
