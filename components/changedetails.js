@@ -48,7 +48,6 @@ class ChangeDetails extends Component{
         // TODO: Look at swagger for all the different status codes and deal with each one
         if(response.status == 200)
         {
-            // Alert.alert("Login success. Auth Token: " +json['token']);
             Alert.alert("Success");
   
             this.props.navigation.navigate('Home');

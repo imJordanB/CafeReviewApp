@@ -39,7 +39,46 @@ class Login extends Component{
           await AsyncStorage.setItem("auth-token", json['token'])
           await AsyncStorage.setItem("user-id", json['id'].toString())
 
+          this.fetchUserDetails();
+
           this.props.navigation.navigate('Menu');
+      }
+  
+      else if(response.status == 400)
+      {
+          Alert.alert("Incorrect login details, please check your details and try again.")
+      }
+  
+      else 
+      {
+          Alert.alert("Server error, please try again later");
+      }
+    }
+    catch(error) {
+      console.log(error)
+      Alert.alert("Something went wrong. Plase try again")
+    }
+  };
+
+  fetchUserDetails = async() => {
+    try {
+      let userId = await AsyncStorage.getItem("user-id");
+      let authToken = await AsyncStorage.getItem("auth-token");
+
+      let response = await fetch("http://10.0.2.2:3333/api/1.0.0/user/" +userId, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Authorization': authToken
+        },
+      })
+  
+      if(response.status == 200)
+      {
+          let json = await response.json();
+
+          await AsyncStorage.setItem("first_name", json['first_name'])
+          await AsyncStorage.setItem("last_name", json['last_name']);
       }
   
       else if(response.status == 400)

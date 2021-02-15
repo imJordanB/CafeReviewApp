@@ -9,8 +9,7 @@ class Home extends Component{
 
     this.state = {
       isLoading: false,
-      email: "",
-      password: ""
+      firstName: "",
     };
   }
 
@@ -27,13 +26,27 @@ class Home extends Component{
     }
   };
 
-  render(){
+  fetchUserDetails = async() => {
+    try{
+      let firstName = await AsyncStorage.getItem("first_name");
+      this.setState({firstName: firstName})
+    }
+    catch (error) {
+      Alert.alert("Error fetching first_name from storage: " +error)
+    }
+  }
 
+  componentDidMount(){
+    this.fetchUserDetails();
+  }
+
+  render(){
     const navigation = this.props.navigation;
 
     return (
       <View style={styles.container}>
         <Text style={styles.logo}>COFFIDA</Text>
+        <Text style={styles.logo}>Hello {this.state.firstName}!</Text>
       </View>
     );
   };
