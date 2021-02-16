@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { Text, TextInput, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList } from 'react-native';
-import ReactStars from 'react-stars'
+import { Rating, AirbnbRating } from 'react-native-ratings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class AllReviews extends Component{
@@ -16,6 +16,7 @@ class AllReviews extends Component{
     };
   }
   render(){
+    // TODO: Conditional render: if params is there, return this, else return a message saying theres been an error
     const { cafeData } = this.props.route.params;
       return (
         <View style={styles.container}>
@@ -26,14 +27,14 @@ class AllReviews extends Component{
           data={cafeData.location_reviews}
           renderItem={({item}) => {
             return(
-            <View>
-            <Text>"{item.review_body}"</Text>
-            <ReactStars 
+            <View style={styles.reviewBody}>
+              <AirbnbRating 
+              defaultRating={item.review_overallrating}
               count={5}
-              size={24}
-              value={item.overall_rating}
+              isDisabled={true}
+              reviewSize={25}
             />
-            <Text>Overall Rating: {item.overall_rating}</Text>
+            <Text>"{item.review_body}"</Text>
             </View>
             )
           }}
@@ -94,9 +95,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10
   },
-  test: {
+  reviewBody: {
     flex: 1,
-    backgroundColor: '#AAA'
+    backgroundColor: '#668b8b',
+    marginBottom: 10
   }
 })
 

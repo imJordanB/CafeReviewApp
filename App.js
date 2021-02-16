@@ -14,7 +14,7 @@ import AllReviews from './components/allReviews'
 const Drawer = createDrawerNavigator();
 
 const DrawerTab = () => (
-  <Drawer.Navigator>
+  <Drawer.Navigator screenOptions={() => ({headerShown: true})}>
     <Drawer.Screen name="Home" component={Home} />
     <Drawer.Screen name="All Reviews" component={AllReviews} />
     <Drawer.Screen name="Change details" component={ChangeDetails} />

@@ -63,6 +63,51 @@ class Home extends Component{
     }
   }
 
+  favouriteLocation = async(location_id) => {
+    let authToken = await AsyncStorage.getItem("auth-token");
+    try {
+      let response = await fetch("http://10.0.2.2:3333/api/1.0.0/location/" +location_id+ "/favourite", {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Authorization': authToken
+        }
+      })
+  
+      if(response.status == 200)
+      {
+          // Alert.alert("Login success. Auth Token: " +json['token']);
+
+          // let json = await response.json();
+
+          // this.setState({locationData: json, isLoading: false})
+
+          Alert.alert("Successfully favourited location")
+      }
+  
+      else if(response.status == 400)
+      {
+          Alert.alert("Bad request. Please try again later")
+      }
+
+      else if(response.stauts == 401){
+        Alert.alert("Unauthorised. Please sign out and log back in again")
+      }
+  
+      else 
+      {
+          //Alert.alert(this.state.authToken);
+          //Alert.alert(response.status.toString());
+          //Alert.alert("Server error, please try again later");
+          Alert.alert(response.status.toString())
+      }
+    }
+    catch(error) {
+      console.log(error)
+      Alert.alert("Something went wrong. Plase try again")
+    }
+  }
+
   componentDidMount(){
     this.fetchUserDetails();
     this.fetchAllLocations();
@@ -74,7 +119,7 @@ class Home extends Component{
     if(this.state.isLoading) {
       return(
         <View>
-          <ActivityIndicator />
+          <ActivityIndicator size="large" color="#00ff00" />
         </View>
       )
     }
@@ -82,17 +127,24 @@ class Home extends Component{
       return (
         <View style={styles.container}>
           <Text style={styles.logo}>COFFIDA</Text>
-          <Text style={styles.logo}>Hello {this.state.firstName}!</Text>
+          <Text>Hello {this.state.firstName}!</Text>
 
           <FlatList
           data={this.state.locationData}
           renderItem={({item}) => {
             return(
-            <View>
+            <View style={styles.cafeShopRow}>
             <Text>{item.location_name}</Text>
-            <Button 
+            <Button
+              style={styles.cafeButton} 
               title="Read reviews"
               onPress={() => navigation.navigate('All Reviews', { cafeData: item})}
+            />
+
+            <Button
+              style={styles.cafeButton}
+              title="Favourite"
+              onPress={() => this.favouriteLocation(item.location_id)}
             />
             </View>
             )
@@ -114,7 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 50,
     color: "#fb5b5a",
-    marginBottom: 40,
+    marginBottom: 10,
     justifyContent: "center",
     alignItems: "center"
 
@@ -155,9 +207,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10
   },
-  test: {
-    flex: 1,
-    backgroundColor: '#AAA'
+  cafeShopRow: {
+    marginBottom: 20,
+    backgroundColor: "#B8B8B8"
+  },
+  cafeButton: {
+    marginBottom: 20
   }
 })
 
