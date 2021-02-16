@@ -9,12 +9,14 @@ import Signup from './components/signup'
 import Home from './components/home'
 import ChangeDetails from './components/changedetails'
 import SignOut from './components/signout'
+import AllReviews from './components/allReviews'
 
 const Drawer = createDrawerNavigator();
 
 const DrawerTab = () => (
   <Drawer.Navigator>
     <Drawer.Screen name="Home" component={Home} />
+    <Drawer.Screen name="All Reviews" component={AllReviews} />
     <Drawer.Screen name="Change details" component={ChangeDetails} />
     <Drawer.Screen name="Sign out" component={SignOut} />
   </Drawer.Navigator>

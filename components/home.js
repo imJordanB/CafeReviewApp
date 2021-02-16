@@ -92,7 +92,7 @@ class Home extends Component{
             <Text>{item.location_name}</Text>
             <Button 
               title="Read reviews"
-              onPress={() => Alert.alert("Review navigation")}
+              onPress={() => navigation.navigate('All Reviews', { cafeData: item})}
             />
             </View>
             )
