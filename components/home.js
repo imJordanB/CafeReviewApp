@@ -108,6 +108,51 @@ class Home extends Component{
     }
   }
 
+  unfavouriteLocation = async(location_id) => {
+    let authToken = await AsyncStorage.getItem("auth-token");
+    try {
+      let response = await fetch("http://10.0.2.2:3333/api/1.0.0/location/" +location_id+ "/favourite", {
+        method: 'delete',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Authorization': authToken
+        }
+      })
+  
+      if(response.status == 200)
+      {
+          // Alert.alert("Login success. Auth Token: " +json['token']);
+
+          // let json = await response.json();
+
+          // this.setState({locationData: json, isLoading: false})
+
+          Alert.alert("Successfully unfavourited location")
+      }
+  
+      else if(response.status == 400)
+      {
+          Alert.alert("Bad request. Please try again later")
+      }
+
+      else if(response.stauts == 401){
+        Alert.alert("Unauthorised. Please sign out and log back in again")
+      }
+  
+      else 
+      {
+          //Alert.alert(this.state.authToken);
+          //Alert.alert(response.status.toString());
+          //Alert.alert("Server error, please try again later");
+          Alert.alert(response.status.toString())
+      }
+    }
+    catch(error) {
+      console.log(error)
+      Alert.alert("Something went wrong. Plase try again")
+    }
+  }
+
   componentDidMount(){
     this.fetchUserDetails();
     this.fetchAllLocations();
@@ -128,13 +173,20 @@ class Home extends Component{
         <View style={styles.container}>
           <Text style={styles.logo}>COFFIDA</Text>
           <Text>Hello {this.state.firstName}!</Text>
-
+          {/* TODO: Change the cafeData to pass in only the location id so that on the allReviews page, it does a GET request on the location ID  */}
           <FlatList
           data={this.state.locationData}
           renderItem={({item}) => {
             return(
             <View style={styles.cafeShopRow}>
             <Text>{item.location_name}</Text>
+
+            <Button
+              style={styles.cafeButton} 
+              title="Add review"
+              onPress={() => navigation.navigate('Add review', { locationId: item.location_id, locationName: item.location_name })}
+            />
+            
             <Button
               style={styles.cafeButton} 
               title="Read reviews"
@@ -146,6 +198,13 @@ class Home extends Component{
               title="Favourite"
               onPress={() => this.favouriteLocation(item.location_id)}
             />
+
+            <Button
+              style={styles.cafeButton}
+              title="Unfavourite"
+              onPress={() => this.unfavouriteLocation(item.location_id)}
+            />
+
             </View>
             )
           }}

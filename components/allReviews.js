@@ -15,6 +15,7 @@ class AllReviews extends Component{
       authToken: "",
     };
   }
+
   render(){
     // TODO: Conditional render: if params is there, return this, else return a message saying theres been an error
     const { cafeData } = this.props.route.params;

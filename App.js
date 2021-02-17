@@ -10,8 +10,11 @@ import Home from './components/home'
 import ChangeDetails from './components/changedetails'
 import SignOut from './components/signout'
 import AllReviews from './components/allReviews'
+import AddReview from './components/addreview'
 
 const Drawer = createDrawerNavigator();
+
+// TODO: Add a stack navigator inside home that goes off to add review and see reviews instead of showing them in the sidebar
 
 const DrawerTab = () => (
   <Drawer.Navigator screenOptions={() => ({headerShown: true})}>
@@ -19,6 +22,7 @@ const DrawerTab = () => (
     <Drawer.Screen name="All Reviews" component={AllReviews} />
     <Drawer.Screen name="Change details" component={ChangeDetails} />
     <Drawer.Screen name="Sign out" component={SignOut} />
+    <Drawer.Screen name="Add review" component={AddReview} />
   </Drawer.Navigator>
 );
 
