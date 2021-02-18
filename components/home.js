@@ -190,7 +190,7 @@ class Home extends Component{
             <Button
               style={styles.cafeButton} 
               title="Read reviews"
-              onPress={() => navigation.navigate('All Reviews', { cafeData: item})}
+              onPress={() => navigation.navigate('All Reviews', { locationId: item.location_id})}
             />
 
             <Button

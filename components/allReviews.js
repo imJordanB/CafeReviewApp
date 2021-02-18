@@ -13,19 +13,157 @@ class AllReviews extends Component{
       locationData: [],
       firstName: "",
       authToken: "",
+      locationId: ""
     };
   }
 
+  fetchReviews = async() => {
+    const { locationId } = this.props.route.params;
+
+    this.setState({locationId: locationId.toString()});
+
+    let authToken = await AsyncStorage.getItem("auth-token");
+    try {
+      let response = await fetch("http://10.0.2.2:3333/api/1.0.0/location/" +locationId, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Authorization': authToken
+        }
+      })
+  
+      if(response.status == 200)
+      {
+          // Alert.alert("Login success. Auth Token: " +json['token']);
+
+          let json = await response.json();
+
+          this.setState({locationData: json, isLoading: false})
+      }
+  
+      else if(response.status == 400)
+      {
+          Alert.alert("Incorrect login details, please check your details and try again.")
+      }
+  
+      else 
+      {
+          //Alert.alert(this.state.authToken);
+          //Alert.alert(response.status.toString());
+          //Alert.alert("Server error, please try again later");#
+          Alert.alert("Else");
+      }
+    }
+    catch(error) {
+      console.log(error)
+      Alert.alert("Something went wrong. Plase try again")
+    }
+  }
+
+  componentDidMount = async() => {
+    this.fetchReviews();
+  }
+
+  likeReview = async(reviewId) => {
+    let authToken = await AsyncStorage.getItem("auth-token")
+
+    let to_send = {
+      loc_id: Number(this.state.locationId),
+      rev_id: reviewId
+    }
+  
+      try {
+        let response = await fetch("http://10.0.2.2:3333/api/1.0.0/location/" +this.state.locationId+ "/review/" +reviewId+ "/like", {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Authorization': authToken
+          },
+          body: JSON.stringify(to_send)
+        })
+    
+        // TODO: Look at swagger for all the different status codes and deal with each one
+        if(response.status == 200)
+        {
+            Alert.alert("Successfully liked the review");
+
+            this.fetchReviews();
+        }
+    
+        else if(response.status == 400)
+        {
+            Alert.alert("400")
+        }
+    
+        else 
+        {
+            Alert.alert("Server error, please try again later");
+        }
+      }
+      catch(error) {
+        console.log(error)
+        Alert.alert("Something went wrong. Plase try again")
+      }
+  }
+
+  unlikeReview = async(reviewId) => {
+    let authToken = await AsyncStorage.getItem("auth-token")
+
+    let to_send = {
+      loc_id: Number(this.state.locationId),
+      rev_id: reviewId
+    }
+  
+      try {
+        let response = await fetch("http://10.0.2.2:3333/api/1.0.0/location/" +this.state.locationId+ "/review/" +reviewId+ "/like", {
+          method: 'delete',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Authorization': authToken
+          },
+          body: JSON.stringify(to_send)
+        })
+    
+        // TODO: Look at swagger for all the different status codes and deal with each one
+        if(response.status == 200)
+        {
+            Alert.alert("Successfully unliked the review");
+
+            this.fetchReviews();
+        }
+    
+        else if(response.status == 400)
+        {
+            Alert.alert("400")
+        }
+    
+        else 
+        {
+            Alert.alert("Server error, please try again later");
+        }
+      }
+      catch(error) {
+        console.log(error)
+        Alert.alert("Something went wrong. Plase try again")
+      }
+  }
+
   render(){
-    // TODO: Conditional render: if params is there, return this, else return a message saying theres been an error
-    const { cafeData } = this.props.route.params;
+    if(this.state.isLoading){
+      return(
+        <View>
+          <ActivityIndicator size="large" color="#00ff00"/>
+        </View>
+      )
+    }
+    else{
       return (
         <View style={styles.container}>
           <Text style={styles.logo}>COFFIDA</Text>
-          <Text style={styles.logo}>{cafeData.location_name} reviews</Text>
+          <Text style={styles.logo}>{this.state.locationData.location_name} reviews</Text>
 
           <FlatList
-          data={cafeData.location_reviews}
+          data={this.state.locationData.location_reviews}
           renderItem={({item}) => {
             return(
             <View style={styles.reviewBody}>
@@ -36,6 +174,18 @@ class AllReviews extends Component{
               reviewSize={25}
             />
             <Text>"{item.review_body}"</Text>
+
+            <Text>Likes: {item.likes}</Text>
+
+            <Button 
+              title={"Like"}
+              onPress={() => this.likeReview(item.review_id)}
+            />
+
+            <Button 
+              title={"Unlike"}
+              onPress={() => this.unlikeReview(item.review_id)}
+            />
             </View>
             )
           }}
@@ -43,6 +193,7 @@ class AllReviews extends Component{
           />
         </View>
       );
+    }
   };
 }
 
