@@ -11,6 +11,7 @@ import ChangeDetails from './components/changedetails'
 import SignOut from './components/signout'
 import AllReviews from './components/allReviews'
 import AddReview from './components/addreview'
+import ReviewManagement from './components/reviewManagement'
 
 const Drawer = createDrawerNavigator();
 
@@ -19,10 +20,11 @@ const Drawer = createDrawerNavigator();
 const DrawerTab = () => (
   <Drawer.Navigator screenOptions={() => ({headerShown: true})}>
     <Drawer.Screen name="Home" component={Home} />
+    <Drawer.Screen name="My reviews" component={ReviewManagement} />
     <Drawer.Screen name="All Reviews" component={AllReviews} />
     <Drawer.Screen name="Change details" component={ChangeDetails} />
-    <Drawer.Screen name="Sign out" component={SignOut} />
     <Drawer.Screen name="Add review" component={AddReview} />
+    <Drawer.Screen name="Sign out" component={SignOut} />
   </Drawer.Navigator>
 );
 
