@@ -1,125 +1,108 @@
-import 'react-native-gesture-handler';
-import React, { Component } from 'react';
-import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import 'react-native-gesture-handler'
+import React, { Component } from 'react'
+import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-class Login extends Component{
-  constructor(props){
-    super(props);
+class Login extends Component {
+  constructor (props) {
+    super(props)
 
     this.state = {
       isLoading: false,
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: ''
+    }
   }
 
-  login = async() =>
-  {
-    let toSend = {
+  login = async () => {
+    const toSend = {
       email: this.state.email,
       password: this.state.password
     }
 
     try {
-      let response = await fetch("http://10.0.2.2:3333/api/1.0.0/user/login", {
+      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/user/login', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(toSend)
       })
-  
-      if(response.status == 200)
-      {
-          // Alert.alert("Login success. Auth Token: " +json['token']);
 
-          let json = await response.json();
+      if (response.status === 200) {
+        // Alert.alert("Login success. Auth Token: " +json['token']);
 
-          await AsyncStorage.setItem("auth-token", json['token'])
-          await AsyncStorage.setItem("user-id", json['id'].toString())
+        const json = await response.json()
 
-          this.fetchUserDetails();
+        await AsyncStorage.setItem('auth-token', json.token)
+        await AsyncStorage.setItem('user-id', json.id.toString())
 
-          this.props.navigation.navigate('Menu');
+        this.fetchUserDetails()
+
+        this.props.navigation.navigate('Menu')
+      } else if (response.status === 400) {
+        Alert.alert('Incorrect login details, please check your details and try again.')
+      } else {
+        Alert.alert('Server error, please try again later')
       }
-  
-      else if(response.status == 400)
-      {
-          Alert.alert("Incorrect login details, please check your details and try again.")
-      }
-  
-      else 
-      {
-          Alert.alert("Server error, please try again later");
-      }
-    }
-    catch(error) {
+    } catch (error) {
       console.log(error)
-      Alert.alert("Something went wrong. Plase try again")
+      Alert.alert('Something went wrong. Plase try again')
     }
   };
 
-  fetchUserDetails = async() => {
+  fetchUserDetails = async () => {
     try {
-      let userId = await AsyncStorage.getItem("user-id");
-      let authToken = await AsyncStorage.getItem("auth-token");
+      const userId = await AsyncStorage.getItem('user-id')
+      const authToken = await AsyncStorage.getItem('auth-token')
 
-      let response = await fetch("http://10.0.2.2:3333/api/1.0.0/user/" +userId, {
+      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/user/' + userId, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
           'X-Authorization': authToken
-        },
+        }
       })
-  
-      if(response.status == 200)
-      {
-          let json = await response.json();
 
-          await AsyncStorage.setItem("first_name", json['first_name'])
-          await AsyncStorage.setItem("last_name", json['last_name']);
+      if (response.status === 200) {
+        const json = await response.json()
+
+        await AsyncStorage.setItem('first_name', json.first_name)
+        await AsyncStorage.setItem('last_name', json.last_name)
+      } else if (response.status === 400) {
+        Alert.alert('Incorrect login details, please check your details and try again.')
+      } else {
+        Alert.alert('Server error, please try again later')
       }
-  
-      else if(response.status == 400)
-      {
-          Alert.alert("Incorrect login details, please check your details and try again.")
-      }
-  
-      else 
-      {
-          Alert.alert("Server error, please try again later");
-      }
-    }
-    catch(error) {
+    } catch (error) {
       console.log(error)
-      Alert.alert("Something went wrong. Plase try again")
+      Alert.alert('Something went wrong. Plase try again')
     }
   };
 
-  render(){
-
-    const navigation = this.props.navigation;
+  render () {
+    const navigation = this.props.navigation
 
     return (
       <View style={styles.container}>
         <Text style={styles.logo} ariaLabel='Coffida'>COFFIDA</Text>
         <View style={styles.inputView}>
-          <TextInput 
-          style={styles.inputText}
-          placeholder="Email address"
-          placeholderTextColor="#FFF"
-          keyboardType="email-address"
-          onChangeText={text => this.setState({email:text})}/>
+          <TextInput
+            style={styles.inputText}
+            placeholder='Email address'
+            placeholderTextColor='#FFF'
+            keyboardType='email-address'
+            onChangeText={text => this.setState({ email: text })}
+          />
         </View>
 
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Password"
-            placeholderTextColor="#FFF"
-            secureTextEntry={true}
-            onChangeText={text => this.setState({password:text})}
+            placeholder='Password'
+            placeholderTextColor='#FFF'
+            secureTextEntry
+            onChangeText={text => this.setState({ password: text })}
           />
         </View>
 
@@ -131,7 +114,7 @@ class Login extends Component{
           <Text style={styles.loginText}>Signup</Text>
         </TouchableOpacity>
       </View>
-    );
+    )
   };
 }
 
@@ -143,47 +126,47 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   logo: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 50,
-    color: "#fb5b5a",
+    color: '#fb5b5a',
     marginBottom: 40
   },
   inputView: {
-    width: "80%",
-    backgroundColor: "#465881",
+    width: '80%',
+    backgroundColor: '#465881',
     borderRadius: 25,
     height: 50,
     marginBottom: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: 20
   },
   inputText: {
     height: 50,
-    color: "white"
+    color: 'white'
   },
   loginText: {
-    color: "#FFF"
+    color: '#FFF'
   },
   loginBtn: {
-    width: "80%",
-    backgroundColor: "#fb5b5a",
+    width: '80%',
+    backgroundColor: '#fb5b5a',
     borderRadius: 25,
     height: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 5,
     marginBottom: 10
   },
   signupBtn: {
-    width: "80%",
-    backgroundColor: "#AAA",
+    width: '80%',
+    backgroundColor: '#AAA',
     borderRadius: 25,
     height: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 5,
     marginBottom: 10
   }
 })
 
-export default Login;
+export default Login
