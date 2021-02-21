@@ -165,7 +165,7 @@ class ReviewManagement extends Component{
             <Image
               source={{uri: photoUri}}
               style={{width: imageSize, height: imageSize}}
-              onError={() => imageSize = 0}
+              onError={() => this.onerror=null}
             />
 
             <Text>"{item.review.review_body}"</Text>

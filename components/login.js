@@ -16,7 +16,7 @@ class Login extends Component{
 
   login = async() =>
   {
-    let to_send = {
+    let toSend = {
       email: this.state.email,
       password: this.state.password
     }
@@ -27,7 +27,7 @@ class Login extends Component{
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(to_send)
+        body: JSON.stringify(toSend)
       })
   
       if(response.status == 200)

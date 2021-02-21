@@ -1,8 +1,8 @@
-import 'react-native-gesture-handler';
-import React, { Component } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
+import 'react-native-gesture-handler'
+import React, { Component } from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import { createStackNavigator } from '@react-navigation/stack'
 
 import Login from './components/login'
 import Signup from './components/signup'
@@ -16,48 +16,48 @@ import EditReview from './components/editReview'
 import AddPhoto from './components/addPhoto'
 import ViewPhoto from './components/viewPhoto'
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator()
 
 // TODO: Add a stack navigator inside home that goes off to add review and see reviews instead of showing them in the sidebar
 
 const DrawerTab = () => (
-  <Drawer.Navigator screenOptions={() => ({headerShown: true})}>
-    <Drawer.Screen name="Home" component={Home} />
-    <Drawer.Screen name="My reviews" component={ReviewManagement} />
-    <Drawer.Screen name="Edit review" component={EditReview} />
-    <Drawer.Screen name="All Reviews" component={AllReviews} />
-    <Drawer.Screen name="Change details" component={ChangeDetails} />
-    <Drawer.Screen name="Add review" component={AddReview} />
-    <Drawer.Screen name="Sign out" component={SignOut} />
-    <Drawer.Screen name="Add photo" component={AddPhoto} />
-    <Drawer.Screen name="View photo" component={ViewPhoto} />
+  <Drawer.Navigator screenOptions={() => ({ headerShown: true })}>
+    <Drawer.Screen name='Home' component={Home} />
+    <Drawer.Screen name='My reviews' component={ReviewManagement} />
+    <Drawer.Screen name='Edit review' component={EditReview} />
+    <Drawer.Screen name='All Reviews' component={AllReviews} />
+    <Drawer.Screen name='Change details' component={ChangeDetails} />
+    <Drawer.Screen name='Add review' component={AddReview} />
+    <Drawer.Screen name='Sign out' component={SignOut} />
+    <Drawer.Screen name='Add photo' component={AddPhoto} />
+    <Drawer.Screen name='View photo' component={ViewPhoto} />
   </Drawer.Navigator>
-);
+)
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
-class App extends Component{
-  constructor(props){
-    super(props);
+class App extends Component {
+  constructor (props) {
+    super(props)
 
     this.state = {
       isLoading: false,
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: ''
+    }
   }
 
-  render(){
+  render () {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} options={() => ({headerShown: false})} />
-          <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="Menu" component={DrawerTab} options={() => ({headerShown: false})}/>
+        <Stack.Navigator initialRouteName='Login'>
+          <Stack.Screen name='Login' component={Login} options={() => ({ headerShown: false })} />
+          <Stack.Screen name='Signup' component={Signup} />
+          <Stack.Screen name='Menu' component={DrawerTab} options={() => ({ headerShown: false })} />
         </Stack.Navigator>
       </NavigationContainer>
-    );
+    )
   };
 }
 
-export default App;
+export default App
