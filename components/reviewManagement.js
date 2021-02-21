@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
-import { Text, TextInput, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList } from 'react-native';
+import { Text, TextInput, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList, Image } from 'react-native';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -90,6 +90,41 @@ class ReviewManagement extends Component{
       }
   }
 
+  deletePhoto = async(locationId, reviewId) => {
+    this.setState({isLoading: true})
+
+    try {
+      let authToken = await AsyncStorage.getItem("auth-token");
+
+      let response = await fetch("http://10.0.2.2:3333/api/1.0.0/location/" +locationId+ "/review/" +reviewId+ "/photo", {
+        method: 'delete',
+        headers: {
+          'X-Authorization': authToken
+        },
+      })
+  
+      if(response.status == 200)
+      {
+          Alert.alert("Successfully deleted photo")
+          this.fetchUserReviews()
+      }
+  
+      else if(response.status == 400)
+      {
+          Alert.alert("Incorrect login details, please check your details and try again.")
+      }
+  
+      else 
+      {
+          Alert.alert("Server error, please try again later");
+      }
+    }
+    catch(error) {
+      console.log(error)
+      Alert.alert("Something went wrong. Plase try again")
+    }
+  }
+
   componentDidMount = async() => {
     this.props.navigation.addListener('focus', () => {
       this.fetchUserReviews();
@@ -115,15 +150,24 @@ class ReviewManagement extends Component{
           <FlatList
           data={this.state.userReviews.reviews}
           renderItem={({item}) => {
+            let imageSize = 200
+            let photoUri = "http://10.0.2.2:3333/api/1.0.0/location/" +item.location.location_id+ "/review/" +item.review.review_id+ "/photo?timestamp=" +Date.now()
             return(
             <View style={styles.reviewBody}>
-                <Text>{item.location.location_name}</Text>
+              <Text>{item.location.location_name}</Text>
               <AirbnbRating 
               defaultRating={item.review.overall_rating}
               count={5}
               isDisabled={true}
               reviewSize={25}
             />
+            
+            <Image
+              source={{uri: photoUri}}
+              style={{width: imageSize, height: imageSize}}
+              onError={() => imageSize = 0}
+            />
+
             <Text>"{item.review.review_body}"</Text>
 
             <Text>Likes: {item.review.likes}</Text>
@@ -138,13 +182,18 @@ class ReviewManagement extends Component{
               onPress={() => this.props.navigation.navigate("View photo", {locationId: item.location.location_id, reviewId: item.review.review_id})}
             />
 
+            <Button
+              title={"Remove photo"}
+              onPress={() => this.deletePhoto(item.location.location_id, item.review.review_id)}
+            />
+
             <Button 
-              title={"Edit"}
+              title={"Edit review"}
               onPress={() => this.props.navigation.navigate("Edit review", {review: item.review, locationId: item.location.location_id})}
             />
 
             <Button 
-              title={"Delete"}
+              title={"Delete review"}
               onPress={() => this.deleteUserReview(item.location.location_id, item.review.review_id)}
             />
             </View>

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Text, TextInput, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList, TouchableOpacity } from 'react-native';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BadWordsFilter from 'bad-words';
 
 class AddReview extends Component{
   constructor(props){
@@ -38,7 +39,16 @@ class AddReview extends Component{
     this.setState({cleanlinessRating: rating.toString()})
   }
 
+  profanityFilter = (text) => {
+    const filter = new BadWordsFilter()
+    filter.addWords("tea", "cakes", "pastries", "pastry", "cake")
+
+    return filter.clean(text);
+  }
+
   addReview = async() => {
+    let cleanText = this.profanityFilter(this.state.reviewBody)
+
     const { locationId } = this.props.route.params;
 
     let authToken = await AsyncStorage.getItem("auth-token")
@@ -48,7 +58,7 @@ class AddReview extends Component{
       price_rating: Number(this.state.priceRating),
       quality_rating: Number(this.state.qualityRating),
       clenliness_rating: Number(this.state.cleanlinessRating),
-      review_body: this.state.reviewBody
+      review_body: cleanText
     }
   
       try {
