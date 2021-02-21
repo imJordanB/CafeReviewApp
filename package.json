@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "standard": "standard"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.4",
@@ -16,6 +17,7 @@
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
     "bad-words": "^3.0.4",
+    "husky": "^5.1.0",
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-camera": "^3.42.2",
@@ -45,6 +47,9 @@
   },
   "standard": {
     "parser": "babel-eslint",
-    "globals": ["fetch", "it"]
+    "globals": [
+      "fetch",
+      "it"
+    ]
   }
 }
