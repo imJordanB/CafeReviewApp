@@ -34,6 +34,8 @@ class ReviewManagement extends Component{
         {
             let json = await response.json();
 
+            console.log(json.reviews)
+
             this.setState({userReviews: json, isLoading: false});
         }
     
@@ -89,7 +91,9 @@ class ReviewManagement extends Component{
   }
 
   componentDidMount = async() => {
-    this.fetchUserReviews();
+    this.props.navigation.addListener('focus', () => {
+      this.fetchUserReviews();
+    })
   }
 
   render(){
@@ -125,8 +129,18 @@ class ReviewManagement extends Component{
             <Text>Likes: {item.review.likes}</Text>
 
             <Button 
+              title={"Add photo"}
+              onPress={() => this.props.navigation.navigate("Add photo", {locationId: item.location.location_id, reviewId: item.review.review_id})}
+            />
+
+            <Button
+              title={"View photo"}
+              onPress={() => this.props.navigation.navigate("View photo", {locationId: item.location.location_id, reviewId: item.review.review_id})}
+            />
+
+            <Button 
               title={"Edit"}
-              onPress={() => this.editUserReview(item.review)}
+              onPress={() => this.props.navigation.navigate("Edit review", {review: item.review, locationId: item.location.location_id})}
             />
 
             <Button 

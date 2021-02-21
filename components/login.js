@@ -109,6 +109,7 @@ class Login extends Component{
           style={styles.inputText}
           placeholder="Email address"
           placeholderTextColor="#FFF"
+          keyboardType="email-address"
           onChangeText={text => this.setState({email:text})}/>
         </View>
 

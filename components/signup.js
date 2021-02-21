@@ -76,10 +76,12 @@ class Signup extends Component{
         </View>
         <View style={styles.inputView}>
           <TextInput 
-          style={styles.inputText}
-          placeholder="Email address"
-          placeholderTextColor="#FFF"
-          onChangeText={text => this.setState({email:text})}/>
+            style={styles.inputText}
+            placeholder="Email address"
+            placeholderTextColor="#FFF"
+            keyboardType="email-address"
+            onChangeText={text => this.setState({email:text})}
+          />
         </View>
 
         <View style={styles.inputView}>
