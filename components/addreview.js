@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import BadWordsFilter from 'bad-words'
+const badWordsFilter = require('./helpers/profanityFilter')
 
 class AddReview extends Component {
   constructor (props) {
@@ -15,6 +15,7 @@ class AddReview extends Component {
       firstName: '',
       authToken: '',
       locationId: '',
+      locationName: '',
       overallRating: '',
       priceRating: '',
       qualityRating: '',
@@ -39,60 +40,61 @@ class AddReview extends Component {
     this.setState({ cleanlinessRating: rating.toString() })
   }
 
-  profanityFilter = (text) => {
-    const filter = new BadWordsFilter()
-    filter.addWords('tea', 'cakes', 'pastries', 'pastry', 'cake')
+  addReview = async () => {
+    const state = this.state
+    if (state.overallRating === '' || state.priceRating === '' || state.qualityRating === '' || state.cleanlinessRating === '' || state.reviewBody === '') {
+      Alert.alert('Please make sure you complete all fields before trying to submit')
+    } else {
+      const cleanText = badWordsFilter(this.state.reviewBody)
 
-    return filter.clean(text)
+      const authToken = await AsyncStorage.getItem('auth-token')
+
+      const toSend = {
+        overall_rating: Number(this.state.overallRating),
+        price_rating: Number(this.state.priceRating),
+        quality_rating: Number(this.state.qualityRating),
+        clenliness_rating: Number(this.state.cleanlinessRating),
+        review_body: cleanText
+      }
+
+      try {
+        const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + this.state.locationId + '/review', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Authorization': authToken
+          },
+          body: JSON.stringify(toSend)
+        })
+
+        // TODO: Look at swagger for all the different status codes and deal with each one
+        if (response.status === 201) {
+          Alert.alert('Successfully submitted your review, thank you')
+          this.props.navigation.navigate('Home')
+        } else if (response.status === 400) {
+          Alert.alert('400')
+        } else {
+          Alert.alert('Server error, please try again later')
+        }
+      } catch (error) {
+        console.log(error)
+        Alert.alert('Something went wrong. Plase try again')
+      }
+    }
   }
 
-  addReview = async () => {
-    const cleanText = this.profanityFilter(this.state.reviewBody)
-
-    const { locationId } = this.props.route.params
-
-    const authToken = await AsyncStorage.getItem('auth-token')
-
-    const toSend = {
-      overall_rating: Number(this.state.overallRating),
-      price_rating: Number(this.state.priceRating),
-      quality_rating: Number(this.state.qualityRating),
-      clenliness_rating: Number(this.state.cleanlinessRating),
-      review_body: cleanText
-    }
-
-    try {
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + locationId + '/review', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Authorization': authToken
-        },
-        body: JSON.stringify(toSend)
-      })
-
-      // TODO: Look at swagger for all the different status codes and deal with each one
-      if (response.status === 201) {
-        Alert.alert('Successfully submitted your review, thank you')
-        this.props.navigation.navigate('Home')
-      } else if (response.status === 400) {
-        Alert.alert('400')
-      } else {
-        Alert.alert('Server error, please try again later')
-      }
-    } catch (error) {
-      console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
-    }
+  componentDidMount () {
+    this.props.navigation.addListener('focus', () => {
+      const { locationName, locationId } = this.props.route.params
+      this.setState({ locationName: locationName, locationId: locationId, reviewBody: '' })
+    })
   }
 
   render () {
-    // TODO: Conditional render: if params is there, return this, else return a message saying theres been an error
-    const { locationName } = this.props.route.params
     return (
       <View style={styles.container}>
         <Text style={styles.logo}>COFFIDA</Text>
-        <Text style={styles.logo}>{locationName} - Add a review</Text>
+        <Text style={styles.logo}>{this.state.locationName} - Add a review</Text>
 
         <View style={styles.centredText}>
           <Text style={styles.centredText}>Overall rating:</Text>
@@ -151,7 +153,6 @@ class AddReview extends Component {
         <TouchableOpacity style={styles.loginBtn} onPress={() => this.addReview()}>
           <Text style={styles.loginText}>Add review</Text>
         </TouchableOpacity>
-
       </View>
     )
   };

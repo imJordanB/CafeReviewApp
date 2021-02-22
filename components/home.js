@@ -113,9 +113,6 @@ class Home extends Component {
       } else if (response.stauts === 401) {
         Alert.alert('Unauthorised. Please sign out and log back in again')
       } else {
-        // Alert.alert(this.state.authToken);
-        // Alert.alert(response.status.toString());
-        // Alert.alert("Server error, please try again later");
         Alert.alert(response.status.toString())
       }
     } catch (error) {
