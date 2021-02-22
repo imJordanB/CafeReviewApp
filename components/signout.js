@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, View, Alert } from 'react-native'
+import { Text, View, Alert, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 class SignOut extends Component {
@@ -48,6 +48,7 @@ class SignOut extends Component {
   render () {
     return (
       <View>
+        <ActivityIndicator size='large' color='#00ff00' />
         <Text>Signing out...</Text>
       </View>
     )

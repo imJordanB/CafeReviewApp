@@ -58,6 +58,7 @@ class Signup extends Component {
             placeholder='First name'
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ firstName: text })}
+            ariaLabel='First name'
           />
         </View>
 
@@ -67,6 +68,7 @@ class Signup extends Component {
             placeholder='Last name'
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ lastName: text })}
+            ariaLabel='Last name'
           />
         </View>
         <View style={styles.inputView}>
@@ -76,6 +78,7 @@ class Signup extends Component {
             placeholderTextColor='#FFF'
             keyboardType='email-address'
             onChangeText={text => this.setState({ email: text })}
+            ariaLabel='Email address'
           />
         </View>
 
@@ -86,10 +89,11 @@ class Signup extends Component {
             placeholderTextColor='#FFF'
             secureTextEntry
             onChangeText={text => this.setState({ password: text })}
+            ariaLabel='Password'
           />
         </View>
 
-        <TouchableOpacity style={styles.signupBtn} onPress={() => this.signup()}>
+        <TouchableOpacity style={styles.signupBtn} ariaRole='button' onPress={() => this.signup()}>
           <Text style={styles.signupText}>SIGN UP</Text>
         </TouchableOpacity>
       </View>

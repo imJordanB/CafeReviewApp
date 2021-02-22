@@ -99,6 +99,7 @@ class Login extends Component {
             placeholderTextColor='#FFF'
             keyboardType='email-address'
             onChangeText={text => this.setState({ email: text })}
+            ariaLabel='Enter your account email address'
           />
         </View>
 
@@ -109,14 +110,15 @@ class Login extends Component {
             placeholderTextColor='#FFF'
             secureTextEntry
             onChangeText={text => this.setState({ password: text })}
+            ariaLabel='Enter your account password'
           />
         </View>
 
-        <TouchableOpacity style={styles.loginBtn} onPress={() => this.login()}>
+        <TouchableOpacity ariaRole='button' style={styles.loginBtn} onPress={() => this.login()}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.signupBtn} onPress={() => navigation.navigate('Signup')}>
+        <TouchableOpacity ariaRole='button' style={styles.signupBtn} onPress={() => navigation.navigate('Signup')}>
           <Text style={styles.loginText}>Signup</Text>
         </TouchableOpacity>
       </View>
