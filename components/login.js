@@ -41,13 +41,15 @@ class Login extends Component {
 
         this.props.navigation.navigate('Menu')
       } else if (response.status === 400) {
-        Alert.alert('Incorrect login details, please check your details and try again.')
-      } else {
+        Alert.alert('Incorrect login details, please check your details and try again')
+      } else if (response.status === 500) {
         Alert.alert('Server error, please try again later')
+      } else {
+        Alert.alert('Something went wrong, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   };
 
@@ -69,10 +71,14 @@ class Login extends Component {
 
         await AsyncStorage.setItem('first_name', json.first_name)
         await AsyncStorage.setItem('last_name', json.last_name)
-      } else if (response.status === 400) {
-        Alert.alert('Incorrect login details, please check your details and try again.')
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 404) {
+        Alert.alert('User not found, please try signing up or logging in again')
+      } else if (response.status === 500) {
+        Alert.alert('There was a problem with the server, please try again later')
       } else {
-        Alert.alert('Server error, please try again later')
+        Alert.alert('Something went wrong, Please try again later')
       }
     } catch (error) {
       console.log(error)

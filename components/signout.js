@@ -8,12 +8,7 @@ class SignOut extends Component {
     super(props)
 
     this.state = {
-      isLoading: false,
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      test: ''
+      isLoading: false
     }
   }
 
@@ -36,9 +31,9 @@ class SignOut extends Component {
 
         this.props.navigation.navigate('Login')
       } else if (response.status === 401) {
-        Alert.alert('Error: Unauthorised')
+        Alert.alert('Unauthorised, please restart the application')
       } else if (response.status === 500) {
-        Alert.alert('There is a problem with the server, please try again later')
+        Alert.alert('There was a problem with the server, please try again later')
       }
     } catch (error) {
       console.log(error)

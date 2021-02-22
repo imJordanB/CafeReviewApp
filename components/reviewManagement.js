@@ -36,14 +36,18 @@ class ReviewManagement extends Component {
         console.log(json.reviews)
 
         this.setState({ userReviews: json, isLoading: false })
-      } else if (response.status === 400) {
-        Alert.alert('Incorrect login details, please check your details and try again.')
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 404) {
+        Alert.alert('User not found, please try signing out and logging in again')
+      } else if (response.status === 500) {
+        Alert.alert('There was a problem with the server, please try again later')
       } else {
-        Alert.alert('Server error, please try again later')
+        Alert.alert('Something went wrong, Please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, Please try again later')
     }
   }
 
@@ -64,13 +68,21 @@ class ReviewManagement extends Component {
         this.setState({ isLoading: true })
         this.fetchUserReviews()
       } else if (response.status === 400) {
-        Alert.alert('Incorrect login details, please check your details and try again.')
-      } else {
+        Alert.alert('Bad request, please try again')
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 403) {
+        Alert.alert('Forbidden, please try again later')
+      } else if (response.status === 404) {
+        Alert.alert('There was a problem finding this review, please try again later')
+      } else if (response.status === 500) {
         Alert.alert('Server error, please try again later')
+      } else {
+        Alert.alert('Something went wrong, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   }
 
@@ -90,14 +102,20 @@ class ReviewManagement extends Component {
       if (response.status === 200) {
         Alert.alert('Successfully deleted photo')
         this.fetchUserReviews()
-      } else if (response.status === 400) {
-        Alert.alert('Incorrect login details, please check your details and try again.')
-      } else {
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 403) {
+        Alert.alert('Forbidden, please try again later')
+      } else if (response.status === 404) {
+        Alert.alert('There was a problem finding the photo, please try again later')
+      } else if (response.status === 500) {
         Alert.alert('Server error, please try again later')
+      } else {
+        Alert.alert('Something went wrong, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   }
 

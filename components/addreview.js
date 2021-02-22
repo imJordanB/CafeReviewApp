@@ -11,8 +11,6 @@ class AddReview extends Component {
 
     this.state = {
       isLoading: true,
-      locationData: [],
-      firstName: '',
       authToken: '',
       locationId: '',
       locationName: '',
@@ -72,13 +70,19 @@ class AddReview extends Component {
           Alert.alert('Successfully submitted your review, thank you')
           this.props.navigation.navigate('Home')
         } else if (response.status === 400) {
-          Alert.alert('400')
-        } else {
+          Alert.alert('Bad request, please try again')
+        } else if (response.status === 401) {
+          Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+        } else if (response.status === 404) {
+          Alert.alert("There was a problem posting a review for this location, please go back and press 'Add review' again")
+        } else if (response.status === 500) {
           Alert.alert('Server error, please try again later')
+        } else {
+          Alert.alert('Something went wrong, please try again later')
         }
       } catch (error) {
         console.log(error)
-        Alert.alert('Something went wrong. Plase try again')
+        Alert.alert('Something went wrong, please try again later')
       }
     }
   }

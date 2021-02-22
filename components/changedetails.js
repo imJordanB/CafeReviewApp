@@ -42,9 +42,17 @@ class ChangeDetails extends Component {
 
           this.props.navigation.navigate('Home')
         } else if (response.status === 400) {
-          Alert.alert('Incorrect login details, please check your details and try again.')
+          Alert.alert('Bad request, please make sure you have entered valid information into the fields')
+        } else if (response.status === 401) {
+          Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+        } else if (response.status === 403) {
+          Alert.alert("It seems you're trying to update someone else's details, please report this error if it continues")
+        } else if (response.status === 404) {
+          Alert.alert('User not found, maybe the account was deleted, try logging out and back in, and try again')
+        } else if (response.status === 500) {
+          Alert.alert('There was a problem with the server, please try again later')
         } else {
-          Alert.alert('Server error, please try again later')
+          Alert.alert('Something went wrong, please try again later')
         }
       } catch (error) {
         console.log(error)

@@ -33,27 +33,26 @@ class AllReviews extends Component {
       })
 
       if (response.status === 200) {
-        // Alert.alert("Login success. Auth Token: " +json['token']);
-
         const json = await response.json()
 
         this.setState({ locationData: json, isLoading: false })
-      } else if (response.status === 400) {
-        Alert.alert('Incorrect login details, please check your details and try again.')
+      } else if (response.status === 404) {
+        Alert.alert('There was a problem fetching the reviews for this location, please go back and try again')
+      } else if (response.status === 500) {
+        Alert.alert('Server error, please try again later')
       } else {
-        // Alert.alert(this.state.authToken);
-        // Alert.alert(response.status.toString());
-        // Alert.alert("Server error, please try again later");#
-        Alert.alert('Else')
+        Alert.alert('Something went wrong, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   }
 
   componentDidMount = async () => {
-    this.fetchReviews()
+    this.props.navigation.addListener('focus', () => {
+      this.fetchReviews()
+    })
   }
 
   likeReview = async (reviewId) => {

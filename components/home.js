@@ -36,21 +36,21 @@ class Home extends Component {
       })
 
       if (response.status === 200) {
-        // Alert.alert("Login success. Auth Token: " +json['token']);
-
         const json = await response.json()
 
         this.setState({ locationData: json, isLoading: false })
       } else if (response.status === 400) {
-        Alert.alert('Incorrect login details, please check your details and try again.')
+        Alert.alert('Bad request, please try again later')
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 500) {
+        Alert.alert('Server error, please try again later')
       } else {
-        // Alert.alert(this.state.authToken);
-        // Alert.alert(response.status.toString());
-        // Alert.alert("Server error, please try again later");
+        Alert.alert('Something went wrong, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   }
 
@@ -66,26 +66,21 @@ class Home extends Component {
       })
 
       if (response.status === 200) {
-        // Alert.alert("Login success. Auth Token: " +json['token']);
-
-        // let json = await response.json();
-
-        // this.setState({locationData: json, isLoading: false})
-
         Alert.alert('Successfully favourited location')
       } else if (response.status === 400) {
-        Alert.alert('Bad request. Please try again later')
+        Alert.alert('Bad request, please try again later')
       } else if (response.status === 401) {
-        Alert.alert('Unauthorised. Please sign out and log back in again')
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 404) {
+        Alert.alert('There was a problem finding this location, please try again later')
+      } else if (response.status === 500) {
+        Alert.alert('Server error, please try again later')
       } else {
-        // Alert.alert(this.state.authToken);
-        // Alert.alert(response.status.toString());
-        // Alert.alert("Server error, please try again later");
-        Alert.alert(response.status.toString())
+        Alert.alert('Something went wrong, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   }
 
@@ -108,16 +103,20 @@ class Home extends Component {
         // this.setState({locationData: json, isLoading: false})
 
         Alert.alert('Successfully unfavourited location')
-      } else if (response.status === 400) {
-        Alert.alert('Bad request. Please try again later')
-      } else if (response.stauts === 401) {
-        Alert.alert('Unauthorised. Please sign out and log back in again')
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 403) {
+        Alert.alert('Forbidden, please try again later')
+      } else if (response.status === 404) {
+        Alert.alert('There was a problem finding this location, please try again later')
+      } else if (response.status === 500) {
+        Alert.alert('Server error, please try again later')
       } else {
-        Alert.alert(response.status.toString())
+        Alert.alert('Something went wrong, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   }
 

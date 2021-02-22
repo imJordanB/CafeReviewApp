@@ -11,7 +11,6 @@ class AddPhoto extends Component {
     this.state = {
       isLoading: true,
       locationData: [],
-      firstName: '',
       authToken: '',
       locationId: '',
       reviewId: ''
@@ -36,13 +35,19 @@ class AddPhoto extends Component {
         Alert.alert('Successfully submitted your photo for your review, thank you')
         this.props.navigation.navigate('Home')
       } else if (response.status === 400) {
-        Alert.alert('400')
-      } else {
+        Alert.alert('Bad request, please try again')
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 404) {
+        Alert.alert("There was a problem finding the review, please go back and press 'Add photo' again")
+      } else if (response.status === 500) {
         Alert.alert('Server error, please try again later')
+      } else {
+        Alert.alert('Something went wrong, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   }
 

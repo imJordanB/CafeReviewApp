@@ -35,16 +35,16 @@ class Signup extends Component {
           Alert.alert('Signup success')
           this.props.navigation.navigate('Login')
         } else if (response.status === 400) {
-          Alert.alert('Error: Bad request')
+          Alert.alert('Bad request, please make sure you entered a valid email and your password is greater than 5 characters.')
         } else if (response.status === 500) {
           Alert.alert('There was a problem with the server, please try again later')
         } else {
-          Alert.alert('Something went wrong')
+          Alert.alert('Something went wrong, please try again later')
         }
       })
       .catch((error) => {
         console.log(error)
-        Alert.alert(error)
+        Alert.alert('Something went wrong, please try again later')
       })
   };
 
