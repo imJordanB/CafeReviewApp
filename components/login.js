@@ -15,41 +15,45 @@ class Login extends Component {
   }
 
   login = async () => {
-    const toSend = {
-      email: this.state.email,
-      password: this.state.password
-    }
+    if (this.state.email === '' || this.state.password === '') {
+      Alert.alert('Please enter an email address and password before attempting to login')
+    } else {
+      const toSend = {
+        email: this.state.email,
+        password: this.state.password
+      }
 
-    try {
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/user/login', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(toSend)
-      })
+      try {
+        const response = await fetch('http://10.0.2.2:3333/api/1.0.0/user/login', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(toSend)
+        })
 
-      if (response.status === 200) {
-        // Alert.alert("Login success. Auth Token: " +json['token']);
+        if (response.status === 200) {
+          // Alert.alert("Login success. Auth Token: " +json['token']);
 
-        const json = await response.json()
+          const json = await response.json()
 
-        await AsyncStorage.setItem('auth-token', json.token)
-        await AsyncStorage.setItem('user-id', json.id.toString())
+          await AsyncStorage.setItem('auth-token', json.token)
+          await AsyncStorage.setItem('user-id', json.id.toString())
 
-        this.fetchUserDetails()
+          this.fetchUserDetails()
 
-        this.props.navigation.navigate('Menu')
-      } else if (response.status === 400) {
-        Alert.alert('Incorrect login details, please check your details and try again')
-      } else if (response.status === 500) {
-        Alert.alert('Server error, please try again later')
-      } else {
+          this.props.navigation.navigate('Menu')
+        } else if (response.status === 400) {
+          Alert.alert('Incorrect login details, please check your details and try again')
+        } else if (response.status === 500) {
+          Alert.alert('Server error, please try again later')
+        } else {
+          Alert.alert('Something went wrong, please try again later')
+        }
+      } catch (error) {
+        console.log(error)
         Alert.alert('Something went wrong, please try again later')
       }
-    } catch (error) {
-      console.log(error)
-      Alert.alert('Something went wrong, please try again later')
     }
   };
 

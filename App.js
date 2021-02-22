@@ -37,16 +37,6 @@ const DrawerTab = () => (
 const Stack = createStackNavigator()
 
 class App extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      isLoading: false,
-      email: '',
-      password: ''
-    }
-  }
-
   render () {
     return (
       <NavigationContainer>

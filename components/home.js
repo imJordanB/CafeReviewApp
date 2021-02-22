@@ -96,12 +96,6 @@ class Home extends Component {
       })
 
       if (response.status === 200) {
-        // Alert.alert("Login success. Auth Token: " +json['token']);
-
-        // let json = await response.json();
-
-        // this.setState({locationData: json, isLoading: false})
-
         Alert.alert('Successfully unfavourited location')
       } else if (response.status === 401) {
         Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
@@ -139,7 +133,6 @@ class Home extends Component {
         <View style={styles.container}>
           <Text style={styles.logo}>COFFIDA</Text>
           <Text>Hello {this.state.firstName}!</Text>
-          {/* TODO: Change the cafeData to pass in only the location id so that on the allReviews page, it does a GET request on the location ID  */}
           <FlatList
             data={this.state.locationData}
             renderItem={({ item }) => {
@@ -170,7 +163,6 @@ class Home extends Component {
                     title='Unfavourite'
                     onPress={() => this.unfavouriteLocation(item.location_id)}
                   />
-
                 </View>
               )
             }}

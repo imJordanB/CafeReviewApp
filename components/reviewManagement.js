@@ -33,8 +33,6 @@ class ReviewManagement extends Component {
       if (response.status === 200) {
         const json = await response.json()
 
-        console.log(json.reviews)
-
         this.setState({ userReviews: json, isLoading: false })
       } else if (response.status === 401) {
         Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
@@ -137,8 +135,6 @@ class ReviewManagement extends Component {
         <View style={styles.container}>
           <Text style={styles.logo}>COFFIDA</Text>
           <Text style={styles.logo}>My reviews</Text>
-
-          {this.state.userReviews.length === 0 && <Text>You have made no user reviews</Text>}
 
           <FlatList
             data={this.state.userReviews.reviews}
