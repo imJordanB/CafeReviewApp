@@ -64,7 +64,6 @@ class ChangeDetails extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>COFFIDA</Text>
 
         <View style={styles.inputView}>
           <TextInput

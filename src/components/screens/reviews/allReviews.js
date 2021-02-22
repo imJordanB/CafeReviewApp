@@ -133,7 +133,6 @@ class AllReviews extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <Text style={styles.logo}>COFFIDA</Text>
           <Text style={styles.logo}>{this.state.locationData.location_name} reviews</Text>
 
           <FlatList

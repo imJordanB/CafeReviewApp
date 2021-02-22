@@ -133,7 +133,6 @@ class ReviewManagement extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <Text style={styles.logo}>COFFIDA</Text>
           <Text style={styles.logo}>My reviews</Text>
 
           <FlatList

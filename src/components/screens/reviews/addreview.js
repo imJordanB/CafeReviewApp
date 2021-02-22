@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-const badWordsFilter = require('./shared/profanityFilter')
+const badWordsFilter = require('../../shared/profanityFilter')
 
 class AddReview extends Component {
   constructor (props) {
@@ -97,7 +97,6 @@ class AddReview extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>COFFIDA</Text>
         <Text style={styles.logo}>{this.state.locationName} - Add a review</Text>
 
         <View style={styles.centredText}>

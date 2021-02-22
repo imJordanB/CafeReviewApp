@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, Image, View, StyleSheet } from 'react-native'
+import { Image, View, StyleSheet } from 'react-native'
 
 class ViewPhoto extends Component {
   constructor (props) {
@@ -28,7 +28,6 @@ class ViewPhoto extends Component {
     const photoUri = 'http://10.0.2.2:3333/api/1.0.0/location/' + this.state.locationId + '/review/' + this.state.reviewId + '/photo?timestamp=' + Date.now()
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>COFFIDA</Text>
 
         <Image
           style={{ width: 200, height: 200 }}
