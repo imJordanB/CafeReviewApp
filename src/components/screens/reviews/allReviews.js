@@ -116,7 +116,7 @@ class AllReviews extends Component {
       return (
         <View style={baseStyles.mainContainer}>
           <View style={homeStyles.heading}>
-            <Text style={baseStyles.logoText}>{this.state.locationData.location_name} reviews</Text>
+            <Text style={baseStyles.logoText}>{this.state.locationData.location_name}</Text>
           </View>
 
           <FlatList

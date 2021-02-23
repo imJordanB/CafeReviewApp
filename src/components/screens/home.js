@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, View, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { get, post, deleteEndpoint } from '../../api/'
 import { baseStyles, homeStyles, colorPalette } from '../../styles/styles'
 import { AirbnbRating } from 'react-native-ratings'
@@ -15,15 +14,6 @@ class Home extends Component {
       locationData: [],
       firstName: '',
       authToken: ''
-    }
-  }
-
-  fetchUserDetails = async () => {
-    try {
-      const firstName = await AsyncStorage.getItem('first_name')
-      this.setState({ firstName: firstName })
-    } catch (error) {
-      Alert.alert('Error fetching data from storage: ' + error)
     }
   }
 
@@ -97,8 +87,10 @@ class Home extends Component {
   }
 
   componentDidMount () {
-    this.fetchUserDetails()
-    this.fetchAllLocations()
+    this.props.navigation.addListener('focus', () => {
+      this.setState({ isLoading: true })
+      this.fetchAllLocations()
+    })
   }
 
   render () {
@@ -115,7 +107,6 @@ class Home extends Component {
         <View style={baseStyles.mainContainer}>
           <View style={homeStyles.heading}>
             <Text style={baseStyles.logoText}>COFFIDA</Text>
-            <Text>Hello {this.state.firstName}!</Text>
           </View>
           <FlatList
             data={this.state.locationData}

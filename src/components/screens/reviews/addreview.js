@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
+import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import { post } from '../../../api'
+import { baseStyles } from '../../../styles/styles'
 const badWordsFilter = require('../../shared/profanityFilter')
 
 class AddReview extends Component {
@@ -56,7 +57,6 @@ class AddReview extends Component {
       try {
         const response = await post('location/' + this.state.locationId + '/review', JSON.stringify(toSend))
 
-        // TODO: Look at swagger for all the different status codes and deal with each one
         if (response.status === 201) {
           Alert.alert('Successfully submitted your review, thank you')
           this.props.navigation.navigate('Home')
@@ -87,132 +87,70 @@ class AddReview extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
-        <Text style={styles.logo}>{this.state.locationName} - Add a review</Text>
+      <View style={baseStyles.centerTopContainer}>
+        <Text style={baseStyles.header}>{this.state.locationName} - Add review</Text>
 
-        <View style={styles.centredText}>
-          <Text style={styles.centredText}>Overall rating:</Text>
+        <View style={baseStyles.textArea}>
+          <TextInput
+            style={baseStyles.textAreaText}
+            placeholder='Enter your experience here'
+            placeholderTextColor='#FFF'
+            onChangeText={text => this.setState({ reviewBody: text })}
+            multiline
+            numberOfLines={4}
+          />
+        </View>
+
+        <View style={baseStyles.centredText}>
+          <Text style={baseStyles.centredText}>Overall rating:</Text>
           <AirbnbRating
             defaultRating={0}
             count={5}
-            reviewSize={25}
+            size={25}
             showRating={false}
             onFinishRating={this.handleOverallRatingUpdate}
           />
         </View>
 
-        <View style={styles.centredText}>
-          <Text style={styles.centredText}>Price rating:</Text>
+        <View style={baseStyles.centredText}>
+          <Text style={baseStyles.centredText}>Price rating:</Text>
           <AirbnbRating
             defaultRating={0}
             count={5}
-            reviewSize={25}
+            size={25}
             showRating={false}
             onFinishRating={this.handlePriceRatingUpdate}
           />
         </View>
 
-        <View style={styles.centredText}>
-          <Text style={styles.centredText}>Quality rating:</Text>
+        <View style={baseStyles.centredText}>
+          <Text style={baseStyles.centredText}>Quality rating:</Text>
           <AirbnbRating
             defaultRating={0}
             count={5}
-            reviewSize={25}
+            size={25}
             showRating={false}
             onFinishRating={this.handleQualityRatingUpdate}
           />
         </View>
 
-        <View style={styles.centredText}>
-          <Text style={styles.centredText}>Cleanliness rating:</Text>
+        <View style={baseStyles.centredText}>
+          <Text style={baseStyles.centredText}>Cleanliness rating:</Text>
           <AirbnbRating
             defaultRating={0}
             count={5}
-            reviewSize={25}
+            size={25}
             showRating={false}
             onFinishRating={this.handleCleanlinessRatingUpdate}
           />
         </View>
 
-        <View style={styles.inputView}>
-
-          <TextInput
-            style={styles.inputText}
-            placeholder='Enter your experience here'
-            placeholderTextColor='#FFF'
-            onChangeText={text => this.setState({ reviewBody: text })}
-          />
-        </View>
-
-        <TouchableOpacity style={styles.loginBtn} onPress={() => this.addReview()}>
-          <Text style={styles.loginText}>Add review</Text>
+        <TouchableOpacity style={baseStyles.confirmBtn} onPress={() => this.addReview()}>
+          <Text style={baseStyles.confirmBtnText}>Add review</Text>
         </TouchableOpacity>
       </View>
     )
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF'
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#fb5b5a',
-    marginBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center'
-
-  },
-  inputView: {
-    width: '80%',
-    backgroundColor: '#465881',
-    borderRadius: 1,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
-  },
-  inputText: {
-    height: 50,
-    color: 'white'
-  },
-  loginText: {
-    color: '#FFF'
-  },
-  loginBtn: {
-    width: '80%',
-    backgroundColor: '#fb5b5a',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  signupBtn: {
-    width: '80%',
-    backgroundColor: '#AAA',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  reviewBody: {
-    flex: 1,
-    backgroundColor: '#668b8b',
-    marginBottom: 10
-  },
-  centredText: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10
-  }
-})
 
 export default AddReview

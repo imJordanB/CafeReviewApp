@@ -19,6 +19,12 @@ const baseStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: colorPalette.offWhite
   },
+  centerTopContainer: {
+    flex: 1,
+    backgroundColor: colorPalette.offWhite,
+    alignItems: 'center',
+    paddingTop: 20
+  },
   logoText: {
     fontWeight: 'bold',
     fontSize: 50,
@@ -68,6 +74,31 @@ const baseStyles = StyleSheet.create({
     marginVertical: 8,
     borderBottomColor: '#737373',
     borderBottomWidth: StyleSheet.hairlineWidth
+  },
+  textArea: {
+    width: '90%',
+    backgroundColor: colorPalette.lightPrimary,
+    height: 100,
+    marginBottom: 20,
+    borderRadius: 5,
+    justifyContent: 'center',
+    marginTop: 10
+  },
+  textAreaText: {
+    height: 100,
+    color: 'white',
+    fontSize: 18
+  },
+  centredText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  header: {
+    fontWeight: 'bold',
+    fontSize: 30,
+    color: colorPalette.lightPrimary,
+    marginBottom: 10
   }
 })
 

@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Alert, Button } from 'react-native'
+import { View, StyleSheet, Alert, Button } from 'react-native'
 import { RNCamera } from 'react-native-camera'
 import { post } from '../../../api'
+import { baseStyles, colorPalette } from '../../../styles/styles'
 
 class AddPhoto extends Component {
   constructor (props) {
@@ -21,7 +22,6 @@ class AddPhoto extends Component {
     try {
       const response = await post('location/' + this.state.locationId + '/review/' + this.state.reviewId + '/photo', data, 'image/jpeg')
 
-      // TODO: Look at swagger for all the different status codes and deal with each one
       if (response.status === 200) {
         Alert.alert('Successfully submitted your photo for your review, thank you')
         this.props.navigation.navigate('Home')
@@ -60,9 +60,7 @@ class AddPhoto extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
-        <Text style={styles.logo}>COFFIDA</Text>
-
+      <View style={baseStyles.mainContainer}>
         <RNCamera
           ref={ref => {
             this.camera = ref
@@ -73,6 +71,7 @@ class AddPhoto extends Component {
 
         <Button
           title='Take photo'
+          color={colorPalette.darkPrimary}
           onPress={() => { this.takePicture() }}
         />
       </View>
@@ -81,66 +80,6 @@ class AddPhoto extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF'
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#fb5b5a',
-    marginBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center'
-
-  },
-  inputView: {
-    width: '80%',
-    backgroundColor: '#465881',
-    borderRadius: 1,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
-  },
-  inputText: {
-    height: 50,
-    color: 'white'
-  },
-  loginText: {
-    color: '#FFF'
-  },
-  loginBtn: {
-    width: '80%',
-    backgroundColor: '#fb5b5a',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  signupBtn: {
-    width: '80%',
-    backgroundColor: '#AAA',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  reviewBody: {
-    flex: 1,
-    backgroundColor: '#668b8b',
-    marginBottom: 10
-  },
-  centredText: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10
-  },
   preview: {
     flex: 1,
     justifyContent: 'flex-end',
