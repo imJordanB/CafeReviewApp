@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { patch } from '../../../api'
+import { getUserId } from '../../../utilities/async-storage'
 
 class ChangeDetails extends Component {
   constructor (props) {
@@ -16,6 +17,8 @@ class ChangeDetails extends Component {
     if (this.state.firstName === '' && this.state.lastName === '' && this.state.email === '' && this.state.password === '') {
       Alert.alert('No changes, please enter details for the fields you wish to change')
     } else {
+      const userId = await getUserId()
+
       const toSend = {
         first_name: this.state.firstName === '' ? undefined : this.state.firstName,
         last_name: this.state.lastName === '' ? undefined : this.state.lastName,
@@ -23,20 +26,9 @@ class ChangeDetails extends Component {
         password: this.state.password === '' ? undefined : this.state.password
       }
 
-      const userId = await AsyncStorage.getItem('user-id')
-      const authToken = await AsyncStorage.getItem('auth-token')
-
       try {
-        const response = await fetch('http://10.0.2.2:3333/api/1.0.0/user/' + userId, {
-          method: 'patch',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Authorization': authToken
-          },
-          body: JSON.stringify(toSend)
-        })
+        const response = await patch('user/' + userId, JSON.stringify(toSend))
 
-        // TODO: Look at swagger for all the different status codes and deal with each one
         if (response.status === 200) {
           Alert.alert('Success')
 

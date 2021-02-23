@@ -33,8 +33,20 @@ const deleteEndpoint = async (route) => {
   })
 }
 
+const patch = async (route, requestBody, contentType = 'application/json') => {
+  return await fetch(serverUrl + route, {
+    method: 'patch',
+    headers: {
+      'Content-Type': contentType,
+      'X-Authorization': await getAuthToken()
+    },
+    body: requestBody
+  })
+}
+
 module.exports = {
   get: get,
   post: post,
-  deleteEndpoint: deleteEndpoint
+  deleteEndpoint: deleteEndpoint,
+  patch: patch
 }

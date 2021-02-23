@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { patch } from '../../../api'
 const badWordsFilter = require('../../shared/profanityFilter')
 
 class EditReview extends Component {
@@ -47,7 +47,6 @@ class EditReview extends Component {
       Alert.alert('Please make sure you complete all fields before trying to submit')
     } else {
       const cleanText = badWordsFilter(this.state.reviewBody)
-      const authToken = await AsyncStorage.getItem('auth-token')
 
       const toSend = {
         overall_rating: Number(this.state.overallRating),
@@ -58,16 +57,8 @@ class EditReview extends Component {
       }
 
       try {
-        const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + this.state.locationId + '/review/' + this.state.reviewId, {
-          method: 'patch',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Authorization': authToken
-          },
-          body: JSON.stringify(toSend)
-        })
+        const response = await patch('location/' + this.state.locationId + '/review/' + this.state.reviewId, JSON.stringify(toSend))
 
-        // TODO: Look at swagger for all the different status codes and deal with each one
         if (response.status === 200) {
           Alert.alert('Successfully updated your review, thank you')
           this.props.navigation.navigate('My reviews')
