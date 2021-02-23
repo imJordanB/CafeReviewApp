@@ -9,7 +9,7 @@ const get = async (route, contentType = 'application/json') => {
       'Content-Type': contentType,
       'X-Authorization': await getAuthToken()
     }
-  })
+  }).catch(err => console.log('Failed GET: ' + err))
 }
 
 const post = async (route, requestBody = undefined, contentType = 'application/json') => {
@@ -20,7 +20,7 @@ const post = async (route, requestBody = undefined, contentType = 'application/j
       'X-Authorization': await getAuthToken()
     },
     body: requestBody
-  })
+  }).catch(err => console.log('Failed POST: ' + err))
 }
 
 // delete not allowed as variable name
@@ -30,7 +30,7 @@ const deleteEndpoint = async (route) => {
     headers: {
       'X-Authorization': await getAuthToken()
     }
-  })
+  }).catch(err => console.log('Failed DELETE: ' + err))
 }
 
 const patch = async (route, requestBody, contentType = 'application/json') => {
@@ -41,7 +41,7 @@ const patch = async (route, requestBody, contentType = 'application/json') => {
       'X-Authorization': await getAuthToken()
     },
     body: requestBody
-  })
+  }).catch(err => console.log('Failed PATCH: ' + err))
 }
 
 module.exports = {
