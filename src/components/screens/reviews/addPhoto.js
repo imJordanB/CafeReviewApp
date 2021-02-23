@@ -1,8 +1,8 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Alert, Button } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { RNCamera } from 'react-native-camera'
+import { post } from '../../../api'
 
 class AddPhoto extends Component {
   constructor (props) {
@@ -18,17 +18,8 @@ class AddPhoto extends Component {
   }
 
   sendPhoto = async (data) => {
-    const authToken = await AsyncStorage.getItem('auth-token')
-
     try {
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + this.state.locationId + '/review/' + this.state.reviewId + '/photo', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'image/jpeg',
-          'X-Authorization': authToken
-        },
-        body: data
-      })
+      const response = await post('location/' + this.state.locationId + '/review/' + this.state.reviewId + '/photo', data, 'image/jpeg')
 
       // TODO: Look at swagger for all the different status codes and deal with each one
       if (response.status === 200) {

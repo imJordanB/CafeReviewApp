@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { post } from '../../../api'
 const badWordsFilter = require('../../shared/profanityFilter')
 
 class AddReview extends Component {
@@ -45,8 +45,6 @@ class AddReview extends Component {
     } else {
       const cleanText = badWordsFilter(this.state.reviewBody)
 
-      const authToken = await AsyncStorage.getItem('auth-token')
-
       const toSend = {
         overall_rating: Number(this.state.overallRating),
         price_rating: Number(this.state.priceRating),
@@ -56,14 +54,7 @@ class AddReview extends Component {
       }
 
       try {
-        const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + this.state.locationId + '/review', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Authorization': authToken
-          },
-          body: JSON.stringify(toSend)
-        })
+        const response = await post('location/' + this.state.locationId + '/review', JSON.stringify(toSend))
 
         // TODO: Look at swagger for all the different status codes and deal with each one
         if (response.status === 201) {

@@ -2,6 +2,8 @@ import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { get, post } from '../../../api'
+import { getUserId } from '../../../utilities/async-storage'
 
 class Login extends Component {
   constructor (props) {
@@ -24,17 +26,9 @@ class Login extends Component {
       }
 
       try {
-        const response = await fetch('http://10.0.2.2:3333/api/1.0.0/user/login', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(toSend)
-        })
+        const response = await post('user/login', JSON.stringify(toSend))
 
         if (response.status === 200) {
-          // Alert.alert("Login success. Auth Token: " +json['token']);
-
           const json = await response.json()
 
           await AsyncStorage.setItem('auth-token', json.token)
@@ -57,18 +51,12 @@ class Login extends Component {
     }
   };
 
+  // TO DO: Potentially remove - should login be doing a request on homes behalf?
   fetchUserDetails = async () => {
     try {
-      const userId = await AsyncStorage.getItem('user-id')
-      const authToken = await AsyncStorage.getItem('auth-token')
+      const userId = await getUserId()
 
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/user/' + userId, {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Authorization': authToken
-        }
-      })
+      const response = await get('user/' + userId)
 
       if (response.status === 200) {
         const json = await response.json()

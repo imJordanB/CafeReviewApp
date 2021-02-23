@@ -2,6 +2,7 @@ import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { get, post } from '../../api/'
 
 class Home extends Component {
   constructor (props) {
@@ -25,15 +26,8 @@ class Home extends Component {
   }
 
   fetchAllLocations = async () => {
-    const authToken = await AsyncStorage.getItem('auth-token')
     try {
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/find', {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Authorization': authToken
-        }
-      })
+      const response = await get('find')
 
       if (response.status === 200) {
         const json = await response.json()
@@ -55,15 +49,8 @@ class Home extends Component {
   }
 
   favouriteLocation = async (locationId) => {
-    const authToken = await AsyncStorage.getItem('auth-token')
     try {
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + locationId + '/favourite', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Authorization': authToken
-        }
-      })
+      const response = await post('location/' + locationId + '/favourite')
 
       if (response.status === 200) {
         Alert.alert('Successfully favourited location')

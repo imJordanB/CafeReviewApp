@@ -2,6 +2,7 @@ import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, View, Alert, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { post } from '../../../api'
 
 class SignOut extends Component {
   constructor (props) {
@@ -13,16 +14,8 @@ class SignOut extends Component {
   }
 
   signOut = async () => {
-    const authToken = await AsyncStorage.getItem('auth-token')
-
     try {
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/user/logout', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Authorization': authToken
-        }
-      })
+      const response = await post('user/logout')
 
       if (response.status === 200) {
         Alert.alert('Successfully logged out')

@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList, Image } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { get } from '../../../api'
+import { getUserId } from '../../../utilities/async-storage'
 
 class ReviewManagement extends Component {
   constructor (props) {
@@ -19,16 +21,9 @@ class ReviewManagement extends Component {
 
   fetchUserReviews = async () => {
     try {
-      const userId = await AsyncStorage.getItem('user-id')
-      const authToken = await AsyncStorage.getItem('auth-token')
+      const userId = await getUserId()
 
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/user/' + userId, {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Authorization': authToken
-        }
-      })
+      const response = await get('user/' + userId)
 
       if (response.status === 200) {
         const json = await response.json()
