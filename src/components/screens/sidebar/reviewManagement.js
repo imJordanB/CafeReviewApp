@@ -2,8 +2,7 @@ import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList, Image } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { get } from '../../../api'
+import { get, deleteEndpoint } from '../../../api'
 import { getUserId } from '../../../utilities/async-storage'
 
 class ReviewManagement extends Component {
@@ -46,15 +45,7 @@ class ReviewManagement extends Component {
 
   deleteUserReview = async (locationId, reviewId) => {
     try {
-      const authToken = await AsyncStorage.getItem('auth-token')
-
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + locationId + '/review/' + reviewId, {
-        method: 'delete',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Authorization': authToken
-        }
-      })
+      const response = await deleteEndpoint('location/' + locationId + '/review/' + reviewId)
 
       if (response.status === 200) {
         Alert.alert('Successfully deleted review')
@@ -83,14 +74,7 @@ class ReviewManagement extends Component {
     this.setState({ isLoading: true })
 
     try {
-      const authToken = await AsyncStorage.getItem('auth-token')
-
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + locationId + '/review/' + reviewId + '/photo', {
-        method: 'delete',
-        headers: {
-          'X-Authorization': authToken
-        }
-      })
+      const response = await deleteEndpoint('location/' + locationId + '/review/' + reviewId + '/photo')
 
       if (response.status === 200) {
         Alert.alert('Successfully deleted photo')

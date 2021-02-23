@@ -2,8 +2,7 @@ import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { get, post } from '../../../api'
+import { get, post, deleteEndpoint } from '../../../api'
 
 class AllReviews extends Component {
   constructor (props) {
@@ -74,22 +73,8 @@ class AllReviews extends Component {
   }
 
   unlikeReview = async (reviewId) => {
-    const authToken = await AsyncStorage.getItem('auth-token')
-
-    const toSend = {
-      loc_id: Number(this.state.locationId),
-      rev_id: reviewId
-    }
-
     try {
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + this.state.locationId + '/review/' + reviewId + '/like', {
-        method: 'delete',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Authorization': authToken
-        },
-        body: JSON.stringify(toSend)
-      })
+      const response = await deleteEndpoint('location/' + this.state.locationId + '/review/' + reviewId + '/like')
 
       // TODO: Look at swagger for all the different status codes and deal with each one
       if (response.status === 200) {

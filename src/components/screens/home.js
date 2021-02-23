@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { get, post } from '../../api/'
+import { get, post, deleteEndpoint } from '../../api/'
 
 class Home extends Component {
   constructor (props) {
@@ -72,15 +72,8 @@ class Home extends Component {
   }
 
   unfavouriteLocation = async (locationId) => {
-    const authToken = await AsyncStorage.getItem('auth-token')
     try {
-      const response = await fetch('http://10.0.2.2:3333/api/1.0.0/location/' + locationId + '/favourite', {
-        method: 'delete',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Authorization': authToken
-        }
-      })
+      const response = await deleteEndpoint('location/' + locationId + '/favourite')
 
       if (response.status === 200) {
         Alert.alert('Successfully unfavourited location')

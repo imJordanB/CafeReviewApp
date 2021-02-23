@@ -23,7 +23,18 @@ const post = async (route, requestBody = undefined, contentType = 'application/j
   })
 }
 
+// delete not allowed as variable name
+const deleteEndpoint = async (route) => {
+  return await fetch(serverUrl + route, {
+    method: 'delete',
+    headers: {
+      'X-Authorization': await getAuthToken()
+    }
+  })
+}
+
 module.exports = {
   get: get,
-  post: post
+  post: post,
+  deleteEndpoint: deleteEndpoint
 }
