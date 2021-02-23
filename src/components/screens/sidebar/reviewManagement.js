@@ -98,6 +98,7 @@ class ReviewManagement extends Component {
 
   componentDidMount = async () => {
     this.props.navigation.addListener('focus', () => {
+      this.setState({ isLoading: true })
       this.fetchUserReviews()
     })
   }

@@ -44,6 +44,7 @@ class AllReviews extends Component {
 
   componentDidMount = async () => {
     this.props.navigation.addListener('focus', () => {
+      this.setState({ isLoading: true })
       this.fetchReviews()
     })
   }
@@ -62,13 +63,19 @@ class AllReviews extends Component {
 
         this.fetchReviews()
       } else if (response.status === 400) {
-        Alert.alert('400')
-      } else {
+        Alert.alert('Bad request, please try again later')
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 404) {
+        Alert.alert("There was a problem posting a review for this location, please go back and press 'Add review' again")
+      } else if (response.status === 500) {
         Alert.alert('Server error, please try again later')
+      } else {
+        Alert.alert('Something went wrong, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   }
 
@@ -76,19 +83,24 @@ class AllReviews extends Component {
     try {
       const response = await deleteEndpoint('location/' + this.state.locationId + '/review/' + reviewId + '/like')
 
-      // TODO: Look at swagger for all the different status codes and deal with each one
       if (response.status === 200) {
         Alert.alert('Successfully unliked the review')
 
         this.fetchReviews()
-      } else if (response.status === 400) {
-        Alert.alert('400')
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 403) {
+        Alert.alert('Forbidden, please try again later')
+      } else if (response.status === 404) {
+        Alert.alert("There was a problem posting a review for this location, please go back and press 'Add review' again")
+      } else if (response.status === 500) {
+        Alert.alert('Server error, please try again later')
       } else {
         Alert.alert('Server error, please try again later')
       }
     } catch (error) {
       console.log(error)
-      Alert.alert('Something went wrong. Plase try again')
+      Alert.alert('Something went wrong, please try again later')
     }
   }
 

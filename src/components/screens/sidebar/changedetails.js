@@ -9,7 +9,11 @@ class ChangeDetails extends Component {
     super(props)
 
     this.state = {
-      isLoading: false
+      isLoading: false,
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
     }
   }
 
