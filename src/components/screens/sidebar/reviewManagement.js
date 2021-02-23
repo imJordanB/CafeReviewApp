@@ -1,9 +1,10 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList, Image } from 'react-native'
+import { Text, View, Alert, ActivityIndicator, Button, FlatList, Image } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import { get, deleteEndpoint } from '../../../api'
 import { getUserId } from '../../../utilities/async-storage'
+import { baseStyles, homeStyles, colorPalette } from '../../../styles/styles'
 
 class ReviewManagement extends Component {
   constructor (props) {
@@ -112,8 +113,10 @@ class ReviewManagement extends Component {
       )
     } else {
       return (
-        <View style={styles.container}>
-          <Text style={styles.logo}>My reviews</Text>
+        <View style={baseStyles.mainContainer}>
+          <View style={homeStyles.heading}>
+            <Text style={baseStyles.logoText}>My reviews</Text>
+          </View>
 
           <FlatList
             data={this.state.userReviews.reviews}
@@ -121,48 +124,56 @@ class ReviewManagement extends Component {
               const imageSize = 200
               const photoUri = 'http://10.0.2.2:3333/api/1.0.0/location/' + item.location.location_id + '/review/' + item.review.review_id + '/photo?timestamp=' + Date.now()
               return (
-                <View style={styles.reviewBody}>
-                  <Text>{item.location.location_name}</Text>
-                  <AirbnbRating
-                    defaultRating={item.review.overall_rating}
-                    count={5}
-                    isDisabled
-                    reviewSize={25}
-                  />
+                <View style={homeStyles.cafeShopRow}>
+                  <View style={homeStyles.cafeNameContainer}>
+                    <Text style={homeStyles.cafeName}>{item.location.location_name}</Text>
+                  </View>
 
-                  <Image
-                    source={{ uri: photoUri }}
-                    style={{ width: imageSize, height: imageSize }}
-                  />
+                  <View style={homeStyles.halfWidth}>
+                    <AirbnbRating
+                      defaultRating={item.review.overall_rating}
+                      count={5}
+                      isDisabled
+                      size={20}
+                    />
 
-                  <Text>"{item.review.review_body}"</Text>
+                    <Image
+                      source={{ uri: photoUri }}
+                      style={{ width: imageSize, height: imageSize }}
+                    />
 
-                  <Text>Likes: {item.review.likes}</Text>
+                    <Text style={homeStyles.reviewBody}>"{item.review.review_body}"</Text>
 
-                  <Button
-                    title='Add photo'
-                    onPress={() => this.props.navigation.navigate('Add photo', { locationId: item.location.location_id, reviewId: item.review.review_id })}
-                  />
+                    <Text style={homeStyles.reviewBody}>Likes: {item.review.likes}</Text>
 
-                  <Button
-                    title='View photo'
-                    onPress={() => this.props.navigation.navigate('View photo', { locationId: item.location.location_id, reviewId: item.review.review_id })}
-                  />
+                    <View style={homeStyles.fixToText}>
+                      <Button
+                        title='Add photo'
+                        color={colorPalette.lightSecondary}
+                        onPress={() => this.props.navigation.navigate('Add photo', { locationId: item.location.location_id, reviewId: item.review.review_id })}
+                      />
 
-                  <Button
-                    title='Remove photo'
-                    onPress={() => this.deletePhoto(item.location.location_id, item.review.review_id)}
-                  />
+                      <Button
+                        title='Remove photo'
+                        color={colorPalette.lightSecondary}
+                        onPress={() => this.deletePhoto(item.location.location_id, item.review.review_id)}
+                      />
+                    </View>
 
-                  <Button
-                    title='Edit review'
-                    onPress={() => this.props.navigation.navigate('Edit review', { review: item.review, locationId: item.location.location_id })}
-                  />
+                    <View style={homeStyles.fixToText}>
+                      <Button
+                        title='Edit review'
+                        color={colorPalette.lightSecondary}
+                        onPress={() => this.props.navigation.navigate('Edit review', { review: item.review, locationId: item.location.location_id })}
+                      />
 
-                  <Button
-                    title='Delete review'
-                    onPress={() => this.deleteUserReview(item.location.location_id, item.review.review_id)}
-                  />
+                      <Button
+                        title='Delete review'
+                        color={colorPalette.lightSecondary}
+                        onPress={() => this.deleteUserReview(item.location.location_id, item.review.review_id)}
+                      />
+                    </View>
+                  </View>
                 </View>
               )
             }}
@@ -173,62 +184,5 @@ class ReviewManagement extends Component {
     }
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF'
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#fb5b5a',
-    marginBottom: 40,
-    justifyContent: 'center',
-    alignItems: 'center'
-
-  },
-  inputView: {
-    width: '80%',
-    backgroundColor: '#465881',
-    borderRadius: 25,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: 'center',
-    padding: 20
-  },
-  inputText: {
-    height: 50,
-    color: 'white'
-  },
-  loginText: {
-    color: '#FFF'
-  },
-  loginBtn: {
-    width: '80%',
-    backgroundColor: '#fb5b5a',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  signupBtn: {
-    width: '80%',
-    backgroundColor: '#AAA',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  reviewBody: {
-    flex: 1,
-    backgroundColor: '#668b8b',
-    marginBottom: 10
-  }
-})
 
 export default ReviewManagement

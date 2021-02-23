@@ -1,8 +1,10 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
+import { Text, View, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { get, post, deleteEndpoint } from '../../api/'
+import { baseStyles, homeStyles, colorPalette } from '../../styles/styles'
+import { AirbnbRating } from 'react-native-ratings'
 
 class Home extends Component {
   constructor (props) {
@@ -110,39 +112,56 @@ class Home extends Component {
       )
     } else {
       return (
-        <View style={styles.container}>
-          <Text style={styles.logo}>COFFIDA</Text>
-          <Text>Hello {this.state.firstName}!</Text>
+        <View style={baseStyles.mainContainer}>
+          <View style={homeStyles.heading}>
+            <Text style={baseStyles.logoText}>COFFIDA</Text>
+            <Text>Hello {this.state.firstName}!</Text>
+          </View>
           <FlatList
             data={this.state.locationData}
             renderItem={({ item }) => {
               return (
-                <View style={styles.cafeShopRow}>
-                  <Text>{item.location_name}</Text>
+                <View style={homeStyles.cafeShopRow}>
+                  <View style={homeStyles.cafeNameContainer}>
+                    <Text style={homeStyles.cafeName}>{item.location_name}</Text>
+                  </View>
 
-                  <Button
-                    style={styles.cafeButton}
-                    title='Add review'
-                    onPress={() => navigation.navigate('Add review', { locationId: item.location_id, locationName: item.location_name })}
-                  />
+                  <View style={homeStyles.halfWidth}>
+                    <AirbnbRating
+                      defaultRating={item.avg_overall_rating}
+                      count={5}
+                      isDisabled
+                      showRating={false}
+                      size={20}
+                    />
+                    <View style={homeStyles.fixToText}>
+                      <Button
+                        color={colorPalette.lightSecondary}
+                        title='Add review'
+                        onPress={() => navigation.navigate('Add review', { locationId: item.location_id, locationName: item.location_name })}
+                      />
 
-                  <Button
-                    style={styles.cafeButton}
-                    title='Read reviews'
-                    onPress={() => navigation.navigate('All Reviews', { locationId: item.location_id })}
-                  />
+                      <Button
+                        color={colorPalette.lightSecondary}
+                        title='Read reviews'
+                        onPress={() => navigation.navigate('All Reviews', { locationId: item.location_id })}
+                      />
+                    </View>
 
-                  <Button
-                    style={styles.cafeButton}
-                    title='Favourite'
-                    onPress={() => this.favouriteLocation(item.location_id)}
-                  />
+                    <View style={homeStyles.fixToText}>
+                      <Button
+                        color={colorPalette.lightSecondary}
+                        title='Favourite'
+                        onPress={() => this.favouriteLocation(item.location_id)}
+                      />
 
-                  <Button
-                    style={styles.cafeButton}
-                    title='Unfavourite'
-                    onPress={() => this.unfavouriteLocation(item.location_id)}
-                  />
+                      <Button
+                        color={colorPalette.lightSecondary}
+                        title='Unfavourite'
+                        onPress={() => this.unfavouriteLocation(item.location_id)}
+                      />
+                    </View>
+                  </View>
                 </View>
               )
             }}
@@ -153,64 +172,5 @@ class Home extends Component {
     }
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF'
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#fb5b5a',
-    marginBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center'
-
-  },
-  inputView: {
-    width: '80%',
-    backgroundColor: '#465881',
-    borderRadius: 25,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: 'center',
-    padding: 20
-  },
-  inputText: {
-    height: 50,
-    color: 'white'
-  },
-  loginText: {
-    color: '#FFF'
-  },
-  loginBtn: {
-    width: '80%',
-    backgroundColor: '#fb5b5a',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  signupBtn: {
-    width: '80%',
-    backgroundColor: '#AAA',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  cafeShopRow: {
-    marginBottom: 20,
-    backgroundColor: '#B8B8B8'
-  },
-  cafeButton: {
-    marginBottom: 20
-  }
-})
 
 export default Home

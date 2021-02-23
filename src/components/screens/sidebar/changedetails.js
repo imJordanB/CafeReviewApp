@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
+import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
 import { patch } from '../../../api'
 import { getUserId } from '../../../utilities/async-storage'
+import { baseStyles } from '../../../styles/styles'
 
 class ChangeDetails extends Component {
   constructor (props) {
@@ -59,37 +60,38 @@ class ChangeDetails extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
+      <View style={baseStyles.container}>
+        <Text style={baseStyles.logoText}>Change details</Text>
 
-        <View style={styles.inputView}>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='First name (optional)'
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ firstName: text })}
           />
         </View>
 
-        <View style={styles.inputView}>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='Last name (optional)'
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ lastName: text })}
           />
         </View>
-        <View style={styles.inputView}>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='Email address (optional)'
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ email: text })}
           />
         </View>
 
-        <View style={styles.inputView}>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='Password (optional)'
             placeholderTextColor='#FFF'
             secureTextEntry
@@ -97,64 +99,12 @@ class ChangeDetails extends Component {
           />
         </View>
 
-        <TouchableOpacity style={styles.loginBtn} onPress={() => this.changeDetails()}>
-          <Text style={styles.loginText}>Change details</Text>
+        <TouchableOpacity style={baseStyles.confirmBtn} onPress={() => this.changeDetails()}>
+          <Text style={baseStyles.confirmBtnText}>Confirm change</Text>
         </TouchableOpacity>
       </View>
     )
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF'
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#fb5b5a',
-    marginBottom: 40,
-    justifyContent: 'center',
-    alignItems: 'center'
-
-  },
-  inputView: {
-    width: '80%',
-    backgroundColor: '#465881',
-    borderRadius: 25,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: 'center',
-    padding: 20
-  },
-  inputText: {
-    height: 50,
-    color: 'white'
-  },
-  loginText: {
-    color: '#FFF'
-  },
-  loginBtn: {
-    width: '80%',
-    backgroundColor: '#fb5b5a',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  signupBtn: {
-    width: '80%',
-    backgroundColor: '#AAA',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  }
-})
 
 export default ChangeDetails

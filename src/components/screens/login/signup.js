@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
+import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
+import { baseStyles } from '../../../styles/styles'
 
 class Signup extends Component {
   constructor (props) {
@@ -50,11 +51,11 @@ class Signup extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
-        <Text style={styles.logo}>COFFIDA</Text>
-        <View style={styles.inputView}>
+      <View style={baseStyles.container}>
+        <Text style={baseStyles.logoText}>COFFIDA</Text>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='First name'
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ firstName: text })}
@@ -62,18 +63,18 @@ class Signup extends Component {
           />
         </View>
 
-        <View style={styles.inputView}>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='Last name'
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ lastName: text })}
             ariaLabel='Last name'
           />
         </View>
-        <View style={styles.inputView}>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='Email address'
             placeholderTextColor='#FFF'
             keyboardType='email-address'
@@ -82,9 +83,9 @@ class Signup extends Component {
           />
         </View>
 
-        <View style={styles.inputView}>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='Password'
             placeholderTextColor='#FFF'
             secureTextEntry
@@ -93,53 +94,12 @@ class Signup extends Component {
           />
         </View>
 
-        <TouchableOpacity style={styles.signupBtn} ariaRole='button' onPress={() => this.signup()}>
-          <Text style={styles.signupText}>SIGN UP</Text>
+        <TouchableOpacity style={baseStyles.confirmBtn} ariaRole='button' onPress={() => this.signup()}>
+          <Text style={baseStyles.confirmBtnText}>SIGN UP</Text>
         </TouchableOpacity>
       </View>
     )
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#003f5c',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#fb5b5a',
-    marginBottom: 40
-  },
-  inputView: {
-    width: '80%',
-    backgroundColor: '#465881',
-    borderRadius: 25,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: 'center',
-    padding: 20
-  },
-  inputText: {
-    height: 50,
-    color: 'white'
-  },
-  signupText: {
-    color: '#FFF'
-  },
-  signupBtn: {
-    width: '80%',
-    backgroundColor: '#fb5b5a',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  }
-})
 
 export default Signup

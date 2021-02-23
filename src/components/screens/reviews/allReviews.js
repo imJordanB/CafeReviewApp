@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
+import { Text, View, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import { get, post, deleteEndpoint } from '../../../api'
+import { baseStyles, homeStyles, colorPalette } from '../../../styles/styles'
 
 class AllReviews extends Component {
   constructor (props) {
@@ -113,33 +114,39 @@ class AllReviews extends Component {
       )
     } else {
       return (
-        <View style={styles.container}>
-          <Text style={styles.logo}>{this.state.locationData.location_name} reviews</Text>
+        <View style={baseStyles.mainContainer}>
+          <View style={homeStyles.heading}>
+            <Text style={baseStyles.logoText}>{this.state.locationData.location_name} reviews</Text>
+          </View>
 
           <FlatList
             data={this.state.locationData.location_reviews}
             renderItem={({ item }) => {
               return (
-                <View style={styles.reviewBody}>
+                <View style={homeStyles.cafeShopRow}>
                   <AirbnbRating
-                    defaultRating={item.review_overallrating}
+                    defaultRating={item.overall_rating}
                     count={5}
                     isDisabled
-                    reviewSize={25}
-                  />
-                  <Text>"{item.review_body}"</Text>
-
-                  <Text>Likes: {item.likes}</Text>
-
-                  <Button
-                    title='Like'
-                    onPress={() => this.likeReview(item.review_id)}
+                    size={20}
                   />
 
-                  <Button
-                    title='Unlike'
-                    onPress={() => this.unlikeReview(item.review_id)}
-                  />
+                  <Text style={homeStyles.reviewBody}>"{item.review_body}"</Text>
+                  <Text style={homeStyles.reviewBody}>Likes: {item.likes}</Text>
+
+                  <View style={homeStyles.fixToText}>
+                    <Button
+                      title='Like'
+                      color={colorPalette.lightSecondary}
+                      onPress={() => this.likeReview(item.review_id)}
+                    />
+
+                    <Button
+                      title='Unlike'
+                      color={colorPalette.lightSecondary}
+                      onPress={() => this.unlikeReview(item.review_id)}
+                    />
+                  </View>
                 </View>
               )
             }}
@@ -150,62 +157,5 @@ class AllReviews extends Component {
     }
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF'
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#fb5b5a',
-    marginBottom: 40,
-    justifyContent: 'center',
-    alignItems: 'center'
-
-  },
-  inputView: {
-    width: '80%',
-    backgroundColor: '#465881',
-    borderRadius: 25,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: 'center',
-    padding: 20
-  },
-  inputText: {
-    height: 50,
-    color: 'white'
-  },
-  loginText: {
-    color: '#FFF'
-  },
-  loginBtn: {
-    width: '80%',
-    backgroundColor: '#fb5b5a',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  signupBtn: {
-    width: '80%',
-    backgroundColor: '#AAA',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  reviewBody: {
-    flex: 1,
-    backgroundColor: '#668b8b',
-    marginBottom: 10
-  }
-})
 
 export default AllReviews

@@ -1,9 +1,10 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, TextInput, View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
+import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { get, post } from '../../../api'
 import { getUserId } from '../../../utilities/async-storage'
+import { baseStyles } from '../../../styles/styles'
 
 class Login extends Component {
   constructor (props) {
@@ -82,11 +83,11 @@ class Login extends Component {
     const navigation = this.props.navigation
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.logo} ariaLabel='Coffida'>COFFIDA</Text>
-        <View style={styles.inputView}>
+      <View style={baseStyles.container}>
+        <Text style={baseStyles.logoText} ariaLabel='Coffida'>COFFIDA</Text>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='Email address'
             placeholderTextColor='#FFF'
             keyboardType='email-address'
@@ -95,9 +96,9 @@ class Login extends Component {
           />
         </View>
 
-        <View style={styles.inputView}>
+        <View style={baseStyles.inputView}>
           <TextInput
-            style={styles.inputText}
+            style={baseStyles.inputText}
             placeholder='Password'
             placeholderTextColor='#FFF'
             secureTextEntry
@@ -106,67 +107,16 @@ class Login extends Component {
           />
         </View>
 
-        <TouchableOpacity ariaRole='button' style={styles.loginBtn} onPress={() => this.login()}>
-          <Text style={styles.loginText}>LOGIN</Text>
+        <TouchableOpacity ariaRole='button' style={baseStyles.confirmBtn} onPress={() => this.login()}>
+          <Text style={baseStyles.confirmBtnText}>Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity ariaRole='button' style={styles.signupBtn} onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.loginText}>Signup</Text>
+        <TouchableOpacity ariaRole='button' style={baseStyles.alternativeBtn} onPress={() => navigation.navigate('Signup')}>
+          <Text style={baseStyles.confirmBtnText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     )
   };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#003f5c',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#fb5b5a',
-    marginBottom: 40
-  },
-  inputView: {
-    width: '80%',
-    backgroundColor: '#465881',
-    borderRadius: 25,
-    height: 50,
-    marginBottom: 20,
-    justifyContent: 'center',
-    padding: 20
-  },
-  inputText: {
-    height: 50,
-    color: 'white'
-  },
-  loginText: {
-    color: '#FFF'
-  },
-  loginBtn: {
-    width: '80%',
-    backgroundColor: '#fb5b5a',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  },
-  signupBtn: {
-    width: '80%',
-    backgroundColor: '#AAA',
-    borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10
-  }
-})
 
 export default Login
