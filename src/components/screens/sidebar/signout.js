@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Text, View, Alert, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { post } from '../../../api'
+import { t } from '../../../locales'
 
 class SignOut extends Component {
   constructor (props) {
@@ -42,7 +43,7 @@ class SignOut extends Component {
     return (
       <View>
         <ActivityIndicator size='large' color='#00ff00' />
-        <Text>Signing out...</Text>
+        <Text>{t('signing-out')}...</Text>
       </View>
     )
   };

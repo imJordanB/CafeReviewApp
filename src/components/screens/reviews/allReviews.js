@@ -4,6 +4,7 @@ import { Text, View, Alert, ActivityIndicator, Button, FlatList } from 'react-na
 import { AirbnbRating } from 'react-native-ratings'
 import { get, post, deleteEndpoint } from '../../../api'
 import { baseStyles, homeStyles, colorPalette } from '../../../styles/styles'
+import { t } from '../../../locales'
 
 class AllReviews extends Component {
   constructor (props) {
@@ -132,17 +133,17 @@ class AllReviews extends Component {
                   />
 
                   <Text style={homeStyles.reviewBody}>"{item.review_body}"</Text>
-                  <Text style={homeStyles.reviewBody}>Likes: {item.likes}</Text>
+                  <Text style={homeStyles.reviewBody}>{t('likes')}: {item.likes}</Text>
 
                   <View style={homeStyles.fixToText}>
                     <Button
-                      title='Like'
+                      title={t('like')}
                       color={colorPalette.lightSecondary}
                       onPress={() => this.likeReview(item.review_id)}
                     />
 
                     <Button
-                      title='Unlike'
+                      title={t('unlike')}
                       color={colorPalette.lightSecondary}
                       onPress={() => this.unlikeReview(item.review_id)}
                     />

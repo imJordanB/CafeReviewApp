@@ -4,6 +4,7 @@ import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import { patch } from '../../../api'
 import { baseStyles } from '../../../styles/styles'
+import { t } from '../../../locales'
 const badWordsFilter = require('../../shared/profanityFilter')
 
 class EditReview extends Component {
@@ -62,7 +63,7 @@ class EditReview extends Component {
 
         if (response.status === 200) {
           Alert.alert('Successfully updated your review, thank you')
-          this.props.navigation.navigate('My reviews')
+          this.props.navigation.navigate(t('my-reviews'))
         } else if (response.status === 400) {
           Alert.alert('Bad request, please try again')
         } else if (response.status === 401) {
@@ -91,7 +92,7 @@ class EditReview extends Component {
   render () {
     return (
       <View style={baseStyles.centerTopContainer}>
-        <Text style={baseStyles.header}>Edit your review</Text>
+        <Text style={baseStyles.header}>{t('edit-review')}</Text>
 
         <View style={baseStyles.textArea}>
 
@@ -105,7 +106,7 @@ class EditReview extends Component {
         </View>
 
         <View style={baseStyles.centredText}>
-          <Text style={baseStyles.centredText}>Overall rating:</Text>
+          <Text style={baseStyles.centredText}>{t('overall-rating')}:</Text>
           <AirbnbRating
             defaultRating={this.state.overallRating}
             count={5}
@@ -116,7 +117,7 @@ class EditReview extends Component {
         </View>
 
         <View style={baseStyles.centredText}>
-          <Text style={baseStyles.centredText}>Price rating:</Text>
+          <Text style={baseStyles.centredText}>{t('price-rating')}:</Text>
           <AirbnbRating
             defaultRating={this.state.priceRating}
             count={5}
@@ -127,7 +128,7 @@ class EditReview extends Component {
         </View>
 
         <View style={baseStyles.centredText}>
-          <Text style={baseStyles.centredText}>Quality rating:</Text>
+          <Text style={baseStyles.centredText}>{t('quality-rating')}:</Text>
           <AirbnbRating
             defaultRating={this.state.qualityRating}
             count={5}
@@ -138,7 +139,7 @@ class EditReview extends Component {
         </View>
 
         <View style={baseStyles.centredText}>
-          <Text style={baseStyles.centredText}>Cleanliness rating:</Text>
+          <Text style={baseStyles.centredText}>{t('cleanliness-rating')}:</Text>
           <AirbnbRating
             defaultRating={this.state.cleanlinessRating}
             count={5}
@@ -152,7 +153,7 @@ class EditReview extends Component {
           style={baseStyles.confirmBtn}
           onPress={() => this.updateReview()}
         >
-          <Text style={baseStyles.confirmBtnText}>Update review</Text>
+          <Text style={baseStyles.confirmBtnText}>{t('update-review')}</Text>
         </TouchableOpacity>
 
       </View>

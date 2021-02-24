@@ -4,6 +4,7 @@ import { Text, View, Alert, ActivityIndicator, Button, FlatList } from 'react-na
 import { get, post, deleteEndpoint } from '../../api/'
 import { baseStyles, homeStyles, colorPalette } from '../../styles/styles'
 import { AirbnbRating } from 'react-native-ratings'
+import { t } from '../../locales'
 
 class Home extends Component {
   constructor (props) {
@@ -128,27 +129,27 @@ class Home extends Component {
                     <View style={homeStyles.fixToText}>
                       <Button
                         color={colorPalette.lightSecondary}
-                        title='Add review'
-                        onPress={() => navigation.navigate('Add review', { locationId: item.location_id, locationName: item.location_name })}
+                        title={t('add-review')}
+                        onPress={() => navigation.navigate(t('add-review'), { locationId: item.location_id, locationName: item.location_name })}
                       />
 
                       <Button
                         color={colorPalette.lightSecondary}
-                        title='Read reviews'
-                        onPress={() => navigation.navigate('All Reviews', { locationId: item.location_id })}
+                        title={t('read-reviews')}
+                        onPress={() => navigation.navigate(t('all-reviews'), { locationId: item.location_id })}
                       />
                     </View>
 
                     <View style={homeStyles.fixToText}>
                       <Button
                         color={colorPalette.lightSecondary}
-                        title='Favourite'
+                        title={t('favourite')}
                         onPress={() => this.favouriteLocation(item.location_id)}
                       />
 
                       <Button
                         color={colorPalette.lightSecondary}
-                        title='Unfavourite'
+                        title={t('unfavourite')}
                         onPress={() => this.unfavouriteLocation(item.location_id)}
                       />
                     </View>

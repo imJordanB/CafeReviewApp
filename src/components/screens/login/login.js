@@ -4,6 +4,7 @@ import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { post } from '../../../api'
 import { baseStyles } from '../../../styles/styles'
+import { t, getLanguage } from '../../../locales'
 
 class Login extends Component {
   constructor (props) {
@@ -49,6 +50,12 @@ class Login extends Component {
     }
   };
 
+  componentDidMount () {
+    this.props.navigation.addListener('focus', () => {
+      getLanguage()
+    })
+  }
+
   render () {
     const navigation = this.props.navigation
 
@@ -58,7 +65,7 @@ class Login extends Component {
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='Email address'
+            placeholder={t('email')}
             placeholderTextColor='#FFF'
             keyboardType='email-address'
             onChangeText={text => this.setState({ email: text })}
@@ -70,7 +77,7 @@ class Login extends Component {
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='Password'
+            placeholder={t('password')}
             placeholderTextColor='#FFF'
             secureTextEntry
             onChangeText={text => this.setState({ password: text })}
@@ -79,11 +86,11 @@ class Login extends Component {
         </View>
 
         <TouchableOpacity ariaRole='button' style={baseStyles.confirmBtn} onPress={() => this.login()}>
-          <Text style={baseStyles.confirmBtnText}>Login</Text>
+          <Text style={baseStyles.confirmBtnText}>{t('login')}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity ariaRole='button' style={baseStyles.alternativeBtn} onPress={() => navigation.navigate('Signup')}>
-          <Text style={baseStyles.confirmBtnText}>Sign Up</Text>
+          <Text style={baseStyles.confirmBtnText}>{t('signup')}</Text>
         </TouchableOpacity>
       </View>
     )

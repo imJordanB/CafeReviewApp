@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import { Login, Signup } from '../components/screens/login'
 import SidebarNav from '../navigators/sidebar-navigator'
+import { t } from '../locales'
 
 const Stack = createStackNavigator()
 
@@ -13,7 +14,7 @@ export default function App () {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name='Login' component={Login} options={() => ({ headerShown: false })} />
-        <Stack.Screen name='Signup' component={Signup} />
+        <Stack.Screen name={t('signup')} component={Signup} />
         <Stack.Screen name='Menu' component={SidebarNav} options={() => ({ headerShown: false })} />
       </Stack.Navigator>
     </NavigationContainer>

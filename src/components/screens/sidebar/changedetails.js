@@ -4,6 +4,7 @@ import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
 import { patch } from '../../../api'
 import { getUserId } from '../../../utilities/async-storage'
 import { baseStyles } from '../../../styles/styles'
+import { t } from '../../../locales'
 
 class ChangeDetails extends Component {
   constructor (props) {
@@ -61,12 +62,12 @@ class ChangeDetails extends Component {
   render () {
     return (
       <View style={baseStyles.container}>
-        <Text style={baseStyles.logoText}>Change details</Text>
+        <Text style={baseStyles.logoText}>{t('change-details')}</Text>
 
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='First name (optional)'
+            placeholder={t('first-name') + ' (' + t('optional') + ')'}
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ firstName: text })}
           />
@@ -75,7 +76,7 @@ class ChangeDetails extends Component {
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='Last name (optional)'
+            placeholder={t('last-name') + ' (' + t('optional') + ')'}
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ lastName: text })}
           />
@@ -83,7 +84,7 @@ class ChangeDetails extends Component {
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='Email address (optional)'
+            placeholder={t('email') + ' (' + t('optional') + ')'}
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ email: text })}
           />
@@ -92,7 +93,7 @@ class ChangeDetails extends Component {
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='Password (optional)'
+            placeholder={t('password') + ' (' + t('optional') + ')'}
             placeholderTextColor='#FFF'
             secureTextEntry
             onChangeText={text => this.setState({ password: text })}
@@ -100,7 +101,7 @@ class ChangeDetails extends Component {
         </View>
 
         <TouchableOpacity style={baseStyles.confirmBtn} onPress={() => this.changeDetails()}>
-          <Text style={baseStyles.confirmBtnText}>Confirm change</Text>
+          <Text style={baseStyles.confirmBtnText}>{t('confirm-change')}</Text>
         </TouchableOpacity>
       </View>
     )

@@ -4,6 +4,7 @@ import { View, StyleSheet, Alert, Button } from 'react-native'
 import { RNCamera } from 'react-native-camera'
 import { post } from '../../../api'
 import { baseStyles, colorPalette } from '../../../styles/styles'
+import { t } from '../../../locales'
 
 class AddPhoto extends Component {
   constructor (props) {
@@ -24,7 +25,7 @@ class AddPhoto extends Component {
 
       if (response.status === 200) {
         Alert.alert('Successfully submitted your photo for your review, thank you')
-        this.props.navigation.navigate('Home')
+        this.props.navigation.goBack()
       } else if (response.status === 400) {
         Alert.alert('Bad request, please try again')
       } else if (response.status === 401) {
@@ -70,7 +71,7 @@ class AddPhoto extends Component {
         />
 
         <Button
-          title='Take photo'
+          title={t('take-photo')}
           color={colorPalette.darkPrimary}
           onPress={() => { this.takePicture() }}
         />

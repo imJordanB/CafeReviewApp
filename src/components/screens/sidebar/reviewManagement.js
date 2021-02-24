@@ -5,6 +5,7 @@ import { AirbnbRating } from 'react-native-ratings'
 import { get, deleteEndpoint } from '../../../api'
 import { getUserId } from '../../../utilities/async-storage'
 import { baseStyles, homeStyles, colorPalette } from '../../../styles/styles'
+import { t } from '../../../locales'
 
 class ReviewManagement extends Component {
   constructor (props) {
@@ -144,17 +145,17 @@ class ReviewManagement extends Component {
 
                     <Text style={homeStyles.reviewBody}>"{item.review.review_body}"</Text>
 
-                    <Text style={homeStyles.reviewBody}>Likes: {item.review.likes}</Text>
+                    <Text style={homeStyles.reviewBody}>{t('likes')}: {item.review.likes}</Text>
 
                     <View style={homeStyles.fixToText}>
                       <Button
-                        title='Add photo'
+                        title={t('add-photo')}
                         color={colorPalette.lightSecondary}
-                        onPress={() => this.props.navigation.navigate('Add photo', { locationId: item.location.location_id, reviewId: item.review.review_id })}
+                        onPress={() => this.props.navigation.navigate(t('add-photo'), { locationId: item.location.location_id, reviewId: item.review.review_id })}
                       />
 
                       <Button
-                        title='Remove photo'
+                        title={t('remove-photo')}
                         color={colorPalette.lightSecondary}
                         onPress={() => this.deletePhoto(item.location.location_id, item.review.review_id)}
                       />
@@ -162,13 +163,13 @@ class ReviewManagement extends Component {
 
                     <View style={homeStyles.fixToText}>
                       <Button
-                        title='Edit review'
+                        title={t('edit-review')}
                         color={colorPalette.lightSecondary}
-                        onPress={() => this.props.navigation.navigate('Edit review', { review: item.review, locationId: item.location.location_id })}
+                        onPress={() => this.props.navigation.navigate(t('edit-review'), { review: item.review, locationId: item.location.location_id })}
                       />
 
                       <Button
-                        title='Delete review'
+                        title={t('delete-review')}
                         color={colorPalette.lightSecondary}
                         onPress={() => this.deleteUserReview(item.location.location_id, item.review.review_id)}
                       />

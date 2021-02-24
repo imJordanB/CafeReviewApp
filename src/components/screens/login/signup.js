@@ -2,6 +2,7 @@ import 'react-native-gesture-handler'
 import React, { Component } from 'react'
 import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
 import { baseStyles } from '../../../styles/styles'
+import { t } from '../../../locales'
 
 class Signup extends Component {
   constructor (props) {
@@ -56,46 +57,46 @@ class Signup extends Component {
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='First name'
+            placeholder={t('first-name')}
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ firstName: text })}
-            ariaLabel='First name'
+            ariaLabel={t('first-name')}
           />
         </View>
 
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='Last name'
+            placeholder={t('last-name')}
             placeholderTextColor='#FFF'
             onChangeText={text => this.setState({ lastName: text })}
-            ariaLabel='Last name'
+            ariaLabel={t('last-name')}
           />
         </View>
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='Email address'
+            placeholder={t('email')}
             placeholderTextColor='#FFF'
             keyboardType='email-address'
             onChangeText={text => this.setState({ email: text })}
-            ariaLabel='Email address'
+            ariaLabel={t('email')}
           />
         </View>
 
         <View style={baseStyles.inputView}>
           <TextInput
             style={baseStyles.inputText}
-            placeholder='Password'
+            placeholder={t('password')}
             placeholderTextColor='#FFF'
             secureTextEntry
             onChangeText={text => this.setState({ password: text })}
-            ariaLabel='Password'
+            ariaLabel={t('password')}
           />
         </View>
 
         <TouchableOpacity style={baseStyles.confirmBtn} ariaRole='button' onPress={() => this.signup()}>
-          <Text style={baseStyles.confirmBtnText}>SIGN UP</Text>
+          <Text style={baseStyles.confirmBtnText}>{t('signup')}</Text>
         </TouchableOpacity>
       </View>
     )
