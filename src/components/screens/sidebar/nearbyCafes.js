@@ -52,7 +52,7 @@ class NearbyCafes extends Component {
     }
   }
 
-  findCoordinates = () => {
+  findCoordinates = async () => {
     if (!this.state.locationPermission) {
       this.setState({ locationPermission: this.requestLocationPermission() })
     }
@@ -156,15 +156,14 @@ class NearbyCafes extends Component {
   componentDidMount = async () => {
     this.props.navigation.addListener('focus', () => {
       this.setState({ isLoading: true })
-      this.findCoordinates()
-      console.log(this.state.locationPermission)
-
-      if (this.state.locationPermission) {
-        this.fetchAllLocations().then(result =>
-          this.orderByAscendingDistance()
-        ).then(() => this.setState({ isLoading: false }))
-          .catch((err) => console.log(err))
-      }
+      this.findCoordinates().then(() => {
+        if (this.state.locationPermission) {
+          this.fetchAllLocations().then(() =>
+            this.orderByAscendingDistance()
+          ).then(() => this.setState({ isLoading: false }))
+            .catch((err) => console.log(err))
+        }
+      })
     })
   }
 
