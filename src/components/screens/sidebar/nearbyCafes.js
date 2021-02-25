@@ -22,6 +22,7 @@ class NearbyCafes extends Component {
         longitude: '',
         latitude: ''
       },
+      ratingFilter: 0,
       locationPermission: false,
       orderedLocationData: []
     }
@@ -71,9 +72,9 @@ class NearbyCafes extends Component {
     )
   }
 
-  fetchAllLocations = async () => {
+  fetchAllLocations = async (url) => {
     try {
-      const response = await get('find')
+      const response = await get(url)
 
       if (response.status === 200) {
         const json = await response.json()
@@ -158,13 +159,21 @@ class NearbyCafes extends Component {
       this.setState({ isLoading: true })
       this.findCoordinates().then(() => {
         if (this.state.locationPermission) {
-          this.fetchAllLocations().then(() =>
+          this.fetchAllLocations('find').then(() =>
             this.orderByAscendingDistance()
           ).then(() => this.setState({ isLoading: false }))
             .catch((err) => console.log(err))
         }
       })
     })
+  }
+
+  handleRatingSearch = (rating) => {
+    this.setState({ isLoading: true, ratingFilter: rating })
+    this.fetchAllLocations('find?overall_rating=' + rating).then(() =>
+      this.orderByAscendingDistance()
+    ).then(() => this.setState({ isLoading: false }))
+      .catch((err) => console.log(err))
   }
 
   render () {
@@ -181,6 +190,14 @@ class NearbyCafes extends Component {
         <View style={baseStyles.mainContainer}>
           <View style={homeStyles.heading}>
             <Text style={baseStyles.logoText}>Nearby cafes</Text>
+            <Text>Minimum rating:</Text>
+            <AirbnbRating
+              defaultRating={this.state.ratingFilter}
+              count={5}
+              size={25}
+              showRating={false}
+              onFinishRating={this.handleRatingSearch}
+            />
           </View>
 
           <FlatList
@@ -197,6 +214,7 @@ class NearbyCafes extends Component {
                     count={5}
                     isDisabled
                     size={20}
+                    showRating={false}
                   />
 
                   <Text style={homeStyles.reviewBody}>Distance to venue: {item.distance} metres</Text>
