@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, View, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
+import { Text, View, Alert, ActivityIndicator, Button, FlatList, TextInput } from 'react-native'
 import { get, post, deleteEndpoint } from '../../api/'
 import { baseStyles, homeStyles, colorPalette } from '../../styles/styles'
 import { AirbnbRating } from 'react-native-ratings'
@@ -14,13 +14,15 @@ class Home extends Component {
       isLoading: true,
       locationData: [],
       firstName: '',
-      authToken: ''
+      authToken: '',
+      cafeSearchTerm: '',
+      searched: false
     }
   }
 
-  fetchAllLocations = async () => {
+  getEndpoint = async (url) => {
     try {
-      const response = await get('find')
+      const response = await get(url)
 
       if (response.status === 200) {
         const json = await response.json()
@@ -87,10 +89,20 @@ class Home extends Component {
     }
   }
 
+  searchCafeNames () {
+    this.setState({ isLoading: true, searched: true })
+    this.getEndpoint('find?q=' + this.state.cafeSearchTerm)
+  }
+
+  resetSearch () {
+    this.setState({ isLoading: true, searched: false })
+    this.getEndpoint('find')
+  }
+
   componentDidMount () {
     this.props.navigation.addListener('focus', () => {
       this.setState({ isLoading: true })
-      this.fetchAllLocations()
+      this.getEndpoint('find')
     })
   }
 
@@ -108,7 +120,38 @@ class Home extends Component {
         <View style={baseStyles.mainContainer}>
           <View style={homeStyles.heading}>
             <Text style={baseStyles.logoText}>COFFIDA</Text>
+
+            <View style={baseStyles.inputView}>
+              <TextInput
+                style={baseStyles.inputText}
+                placeholder='Search cafe names'
+                placeholderTextColor='#FFF'
+                onChangeText={text => this.setState({ cafeSearchTerm: text })}
+                ariaLabel={t('first-name')}
+              />
+            </View>
           </View>
+
+          <View style={homeStyles.fixToText}>
+            <Button
+              color={colorPalette.lightSecondary}
+              title='Search'
+              onPress={() => this.searchCafeNames()}
+            />
+
+            {this.state.searched &&
+              <Button
+                color={colorPalette.lightSecondary}
+                title='Reset search'
+                onPress={() => this.resetSearch()}
+              />}
+          </View>
+
+          {this.state.searched &&
+            <Text style={baseStyles.regularText}>
+              Showing results for '{this.state.cafeSearchTerm}'
+            </Text>}
+
           <FlatList
             data={this.state.locationData}
             renderItem={({ item }) => {

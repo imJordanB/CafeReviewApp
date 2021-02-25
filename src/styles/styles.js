@@ -99,6 +99,13 @@ const baseStyles = StyleSheet.create({
     fontSize: 30,
     color: colorPalette.lightPrimary,
     marginBottom: 10
+  },
+  buttonMargin: {
+    marginBottom: 15
+  },
+  regularText: {
+    fontSize: 20,
+    marginTop: 15
   }
 })
 
