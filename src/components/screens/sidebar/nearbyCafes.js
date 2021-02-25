@@ -223,7 +223,7 @@ class NearbyCafes extends Component {
                     <Button
                       color={colorPalette.lightSecondary}
                       title={t('read-reviews')}
-                      onPress={() => navigation.navigate(t('all-reviews'), { locationId: item.location_id })}
+                      onPress={() => navigation.navigate('Reviews', { locationId: item.location_id })}
                     />
                   </View>
                 </View>
