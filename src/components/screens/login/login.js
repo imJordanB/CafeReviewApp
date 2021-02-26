@@ -4,7 +4,7 @@ import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { post } from '../../../api'
 import { baseStyles } from '../../../styles/styles'
-import { t, getLanguage } from '../../../locales'
+import { t } from '../../../locales'
 
 class Login extends Component {
   constructor (props) {
@@ -49,12 +49,6 @@ class Login extends Component {
       }
     }
   };
-
-  componentDidMount () {
-    this.props.navigation.addListener('focus', () => {
-      getLanguage()
-    })
-  }
 
   render () {
     const navigation = this.props.navigation

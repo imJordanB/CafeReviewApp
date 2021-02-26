@@ -18,36 +18,40 @@ class Signup extends Component {
   }
 
   signup () {
-    const toSend = {
-      first_name: this.state.firstName,
-      last_name: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password
-    }
+    if (this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '') {
+      Alert.alert('Please make sure all fields are completed')
+    } else {
+      const toSend = {
+        first_name: this.state.firstName,
+        last_name: this.state.lastName,
+        email: this.state.email,
+        password: this.state.password
+      }
 
-    return fetch('http://10.0.2.2:3333/api/1.0.0/user', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(toSend)
-    })
-      .then((response) => {
-        if (response.status === 201) {
-          Alert.alert('Signup success')
-          this.props.navigation.navigate('Login')
-        } else if (response.status === 400) {
-          Alert.alert('Bad request, please make sure you entered a valid email and your password is greater than 5 characters.')
-        } else if (response.status === 500) {
-          Alert.alert('There was a problem with the server, please try again later')
-        } else {
+      return fetch('http://10.0.2.2:3333/api/1.0.0/user', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(toSend)
+      })
+        .then((response) => {
+          if (response.status === 201) {
+            Alert.alert('Signup success')
+            this.props.navigation.navigate('Login')
+          } else if (response.status === 400) {
+            Alert.alert('Bad request, please make sure you entered a valid email and your password is greater than 5 characters.')
+          } else if (response.status === 500) {
+            Alert.alert('There was a problem with the server, please try again later')
+          } else {
+            Alert.alert('Something went wrong, please try again later')
+          }
+        })
+        .catch((error) => {
+          console.log(error)
           Alert.alert('Something went wrong, please try again later')
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-        Alert.alert('Something went wrong, please try again later')
-      })
+        })
+    }
   };
 
   render () {

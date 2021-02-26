@@ -136,6 +136,7 @@ class AllReviews extends Component {
                   <Image
                     source={{ uri: photoUri }}
                     style={{ width: 200, height: 200 }}
+                    accessibilityLabel={'User submitted photo for ' + this.state.locationData.location_name}
                   />
 
                   <Text style={homeStyles.reviewBody}>"{item.review_body}"</Text>

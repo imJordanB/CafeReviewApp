@@ -87,6 +87,7 @@ class AddReview extends Component {
             onChangeText={text => this.setState({ reviewBody: text })}
             multiline
             numberOfLines={4}
+            ariaLabel={t('enter-experience')}
           />
         </View>
 

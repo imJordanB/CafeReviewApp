@@ -141,6 +141,7 @@ class ReviewManagement extends Component {
                     <Image
                       source={{ uri: photoUri }}
                       style={{ width: imageSize, height: imageSize }}
+                      accessibilityLabel={'User submitted photo for ' + item.location.location_name}
                     />
 
                     <Text style={homeStyles.reviewBody}>"{item.review.review_body}"</Text>

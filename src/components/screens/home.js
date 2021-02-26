@@ -158,7 +158,7 @@ class Home extends Component {
                 placeholder={t('search-cafe-names')}
                 placeholderTextColor='#FFF'
                 onChangeText={text => this.setState({ cafeSearchTerm: text })}
-                ariaLabel={t('first-name')}
+                ariaLabel={t('search-cafe-names')}
               />
             </View>
 

@@ -116,6 +116,7 @@ class ChangeDetails extends Component {
               placeholder={t('first-name') + ' (' + t('optional') + ')'}
               placeholderTextColor='#FFF'
               onChangeText={text => this.setState({ firstName: text })}
+              ariaLabel={t('first-name')}
             />
           </View>
 
@@ -125,6 +126,7 @@ class ChangeDetails extends Component {
               placeholder={t('last-name') + ' (' + t('optional') + ')'}
               placeholderTextColor='#FFF'
               onChangeText={text => this.setState({ lastName: text })}
+              ariaLabel={t('last-name')}
             />
           </View>
           <View style={baseStyles.inputView}>
@@ -133,6 +135,7 @@ class ChangeDetails extends Component {
               placeholder={t('email') + ' (' + t('optional') + ')'}
               placeholderTextColor='#FFF'
               onChangeText={text => this.setState({ email: text })}
+              ariaLabel={t('email')}
             />
           </View>
 
@@ -143,6 +146,7 @@ class ChangeDetails extends Component {
               placeholderTextColor='#FFF'
               secureTextEntry
               onChangeText={text => this.setState({ password: text })}
+              ariaLabel={t('password')}
             />
           </View>
 
