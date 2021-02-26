@@ -42,6 +42,10 @@ class EditReview extends Component {
     this.setState({ cleanlinessRating: rating.toString() })
   }
 
+  handleRatingUpdate = (rating, variableToUpdate) => {
+    this.setState({ [variableToUpdate]: rating.toString() })
+  }
+
   updateReview = async () => {
     const state = this.state
 
@@ -112,7 +116,7 @@ class EditReview extends Component {
             count={5}
             size={25}
             showRating={false}
-            onFinishRating={this.handleOverallRatingUpdate}
+            onFinishRating={(rating) => this.handleRatingUpdate(rating, 'overallRating')}
           />
         </View>
 
@@ -123,7 +127,7 @@ class EditReview extends Component {
             count={5}
             size={25}
             showRating={false}
-            onFinishRating={this.handlePriceRatingUpdate}
+            onFinishRating={(rating) => this.handleRatingUpdate(rating, 'priceRating')}
           />
         </View>
 
@@ -134,7 +138,7 @@ class EditReview extends Component {
             count={5}
             size={25}
             showRating={false}
-            onFinishRating={this.handleQualityRatingUpdate}
+            onFinishRating={(rating) => this.handleRatingUpdate(rating, 'qualityRating')}
           />
         </View>
 
@@ -145,7 +149,7 @@ class EditReview extends Component {
             count={5}
             size={25}
             showRating={false}
-            onFinishRating={this.handleCleanlinessRatingUpdate}
+            onFinishRating={(rating) => this.handleRatingUpdate(rating, 'cleanlinessRating')}
           />
         </View>
 

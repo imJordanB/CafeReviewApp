@@ -24,20 +24,8 @@ class AddReview extends Component {
     }
   }
 
-  handleOverallRatingUpdate = (rating) => {
-    this.setState({ overallRating: rating.toString() })
-  }
-
-  handlePriceRatingUpdate = (rating) => {
-    this.setState({ priceRating: rating.toString() })
-  }
-
-  handleQualityRatingUpdate = (rating) => {
-    this.setState({ qualityRating: rating.toString() })
-  }
-
-  handleCleanlinessRatingUpdate = (rating) => {
-    this.setState({ cleanlinessRating: rating.toString() })
+  handleRatingUpdate = (rating, variableToUpdate) => {
+    this.setState({ [variableToUpdate]: rating.toString() })
   }
 
   addReview = async () => {
@@ -109,7 +97,7 @@ class AddReview extends Component {
             count={5}
             size={25}
             showRating={false}
-            onFinishRating={this.handleOverallRatingUpdate}
+            onFinishRating={(rating) => this.handleRatingUpdate(rating, 'overallRating')}
           />
         </View>
 
@@ -120,7 +108,7 @@ class AddReview extends Component {
             count={5}
             size={25}
             showRating={false}
-            onFinishRating={this.handlePriceRatingUpdate}
+            onFinishRating={(rating) => this.handleRatingUpdate(rating, 'priceRating')}
           />
         </View>
 
@@ -131,7 +119,7 @@ class AddReview extends Component {
             count={5}
             size={25}
             showRating={false}
-            onFinishRating={this.handleQualityRatingUpdate}
+            onFinishRating={(rating) => this.handleRatingUpdate(rating, 'qualityRating')}
           />
         </View>
 
@@ -142,7 +130,7 @@ class AddReview extends Component {
             count={5}
             size={25}
             showRating={false}
-            onFinishRating={this.handleCleanlinessRatingUpdate}
+            onFinishRating={(rating) => this.handleRatingUpdate(rating, 'cleanlinessRating')}
           />
         </View>
 

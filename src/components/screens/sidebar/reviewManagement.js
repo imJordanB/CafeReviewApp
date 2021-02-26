@@ -145,8 +145,8 @@ class ReviewManagement extends Component {
 
                     <Text style={homeStyles.reviewBody}>"{item.review.review_body}"</Text>
 
-                    <Text style={homeStyles.reviewBody}>Quality: {item.review.quality_rating}/5</Text>
                     <Text style={homeStyles.reviewBody}>Price: {item.review.price_rating}/5</Text>
+                    <Text style={homeStyles.reviewBody}>Quality: {item.review.quality_rating}/5</Text>
                     <Text style={homeStyles.reviewBody}>Cleanliness: {item.review.clenliness_rating}/5</Text>
 
                     <Text style={homeStyles.reviewBody}>{t('likes')}: {item.review.likes}</Text>
