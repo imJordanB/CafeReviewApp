@@ -133,6 +133,11 @@ class AllReviews extends Component {
                   />
 
                   <Text style={homeStyles.reviewBody}>"{item.review_body}"</Text>
+
+                  <Text style={homeStyles.reviewBody}>Quality: {item.quality_rating}/5</Text>
+                  <Text style={homeStyles.reviewBody}>Price: {item.price_rating}/5</Text>
+                  <Text style={homeStyles.reviewBody}>Cleanliness: {item.clenliness_rating}/5</Text>
+
                   <Text style={homeStyles.reviewBody}>{t('likes')}: {item.likes}</Text>
 
                   <View style={homeStyles.fixToText}>
