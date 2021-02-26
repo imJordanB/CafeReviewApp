@@ -189,7 +189,7 @@ class NearbyCafes extends Component {
       return (
         <View style={baseStyles.mainContainer}>
           <View style={homeStyles.heading}>
-            <Text style={baseStyles.logoText}>Nearby cafes</Text>
+            <Text style={baseStyles.logoText}>{t('nearby-cafes')}</Text>
             <Text>{t('minimum-rating-filter')}:</Text>
             <AirbnbRating
               defaultRating={this.state.ratingFilter}
