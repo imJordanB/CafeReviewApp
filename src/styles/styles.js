@@ -106,6 +106,9 @@ const baseStyles = StyleSheet.create({
   regularText: {
     fontSize: 20,
     marginTop: 15
+  },
+  text: {
+    fontSize: 20
   }
 })
 

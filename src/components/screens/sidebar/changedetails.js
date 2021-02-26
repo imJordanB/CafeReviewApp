@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, TextInput, View, Alert, TouchableOpacity } from 'react-native'
-import { patch } from '../../../api'
+import { Text, TextInput, View, Alert, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { patch, get } from '../../../api'
 import { getUserId } from '../../../utilities/async-storage'
 import { baseStyles } from '../../../styles/styles'
 import { t } from '../../../locales'
@@ -11,11 +11,15 @@ class ChangeDetails extends Component {
     super(props)
 
     this.state = {
-      isLoading: false,
+      isLoading: true,
       firstName: '',
       lastName: '',
       email: '',
-      password: ''
+      password: '',
+      customerInfo: [],
+      currentFirstName: '',
+      currentLastName: '',
+      currentEmail: ''
     }
   }
 
@@ -59,52 +63,95 @@ class ChangeDetails extends Component {
     }
   };
 
+  fetchCurrentInfo = async () => {
+    try {
+      const userId = await getUserId()
+
+      const response = await get('user/' + userId)
+
+      if (response.status === 200) {
+        const json = await response.json()
+
+        this.setState({ customerInfo: json, isLoading: false })
+      } else if (response.status === 400) {
+        Alert.alert('Bad request, please try again later')
+      } else if (response.status === 401) {
+        Alert.alert('Unauthorised, please try logging out and back in, your session may have expired')
+      } else if (response.status === 500) {
+        Alert.alert('Server error, please try again later')
+      } else {
+        Alert.alert('Something went wrong, please try again later')
+      }
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Something went wrong, please try again later')
+    }
+  }
+
+  componentDidMount () {
+    this.props.navigation.addListener('focus', () => {
+      this.setState({ isLoading: true })
+      this.fetchCurrentInfo()
+    })
+  }
+
   render () {
-    return (
-      <View style={baseStyles.container}>
-        <Text style={baseStyles.logoText}>{t('change-details')}</Text>
-
-        <View style={baseStyles.inputView}>
-          <TextInput
-            style={baseStyles.inputText}
-            placeholder={t('first-name') + ' (' + t('optional') + ')'}
-            placeholderTextColor='#FFF'
-            onChangeText={text => this.setState({ firstName: text })}
-          />
+    if (this.state.isLoading) {
+      return (
+        <View>
+          <ActivityIndicator size='large' color='#00ff00' />
         </View>
+      )
+    } else {
+      const customerInfo = this.state.customerInfo
+      return (
+        <View style={baseStyles.container}>
+          <Text style={baseStyles.logoText}>{t('change-details')}</Text>
+          <Text style={baseStyles.text}>Current information:</Text>
+          <Text style={baseStyles.text}>Name: {customerInfo.first_name} {customerInfo.last_name}</Text>
+          <Text style={baseStyles.text}>Email: {customerInfo.email}</Text>
+          <View style={baseStyles.inputView}>
+            <TextInput
+              style={baseStyles.inputText}
+              placeholder={t('first-name') + ' (' + t('optional') + ')'}
+              placeholderTextColor='#FFF'
+              onChangeText={text => this.setState({ firstName: text })}
+            />
+          </View>
 
-        <View style={baseStyles.inputView}>
-          <TextInput
-            style={baseStyles.inputText}
-            placeholder={t('last-name') + ' (' + t('optional') + ')'}
-            placeholderTextColor='#FFF'
-            onChangeText={text => this.setState({ lastName: text })}
-          />
-        </View>
-        <View style={baseStyles.inputView}>
-          <TextInput
-            style={baseStyles.inputText}
-            placeholder={t('email') + ' (' + t('optional') + ')'}
-            placeholderTextColor='#FFF'
-            onChangeText={text => this.setState({ email: text })}
-          />
-        </View>
+          <View style={baseStyles.inputView}>
+            <TextInput
+              style={baseStyles.inputText}
+              placeholder={t('last-name') + ' (' + t('optional') + ')'}
+              placeholderTextColor='#FFF'
+              onChangeText={text => this.setState({ lastName: text })}
+            />
+          </View>
+          <View style={baseStyles.inputView}>
+            <TextInput
+              style={baseStyles.inputText}
+              placeholder={t('email') + ' (' + t('optional') + ')'}
+              placeholderTextColor='#FFF'
+              onChangeText={text => this.setState({ email: text })}
+            />
+          </View>
 
-        <View style={baseStyles.inputView}>
-          <TextInput
-            style={baseStyles.inputText}
-            placeholder={t('password') + ' (' + t('optional') + ')'}
-            placeholderTextColor='#FFF'
-            secureTextEntry
-            onChangeText={text => this.setState({ password: text })}
-          />
-        </View>
+          <View style={baseStyles.inputView}>
+            <TextInput
+              style={baseStyles.inputText}
+              placeholder={t('password') + ' (' + t('optional') + ')'}
+              placeholderTextColor='#FFF'
+              secureTextEntry
+              onChangeText={text => this.setState({ password: text })}
+            />
+          </View>
 
-        <TouchableOpacity style={baseStyles.confirmBtn} onPress={() => this.changeDetails()}>
-          <Text style={baseStyles.confirmBtnText}>{t('confirm-change')}</Text>
-        </TouchableOpacity>
-      </View>
-    )
+          <TouchableOpacity style={baseStyles.confirmBtn} onPress={() => this.changeDetails()}>
+            <Text style={baseStyles.confirmBtnText}>{t('confirm-change')}</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
   };
 }
 
