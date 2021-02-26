@@ -31,5 +31,14 @@
     "confirm-change": "Confirm change",
     "signing-out": "Signing out",
     "take-photo": "Take photo",
-    "update-review": "Update review"
+    "update-review": "Update review",
+    "search-cafe-names": "Search cafe names",
+    "minimum-rating-filter": "Minimum rating filter",
+    "distance-to-venue": "Distance to venue",
+    "metres": "metres",
+    "search": "Search",
+    "reset-search": "Reset search",
+    "showing-results-for": "Showing results for",
+    "filtered-cafes-phrase": "Filtered cafes to a minimum of",
+    "stars": "stars"
 }

@@ -93,7 +93,7 @@ class Home extends Component {
   }
 
   searchCafeNames () {
-    if (this.state.cafeSearchTerm === '' && this.state.ratingFilter === '') {
+    if (this.state.cafeSearchTerm === '' && this.state.ratingFilter === 0) {
       Alert.alert('Nothing was entered, please specify what you would like to search')
     } else {
       this.setState({ isLoading: true, searched: true })
@@ -153,14 +153,14 @@ class Home extends Component {
             <View style={baseStyles.inputView}>
               <TextInput
                 style={baseStyles.inputText}
-                placeholder='Search cafe names'
+                placeholder={t('search-cafe-names')}
                 placeholderTextColor='#FFF'
                 onChangeText={text => this.setState({ cafeSearchTerm: text })}
                 ariaLabel={t('first-name')}
               />
             </View>
 
-            <Text>Minimum rating filter:</Text>
+            <Text>{t('minimum-rating-filter')}:</Text>
             <AirbnbRating
               defaultRating={0}
               count={5}
@@ -173,26 +173,26 @@ class Home extends Component {
           <View style={homeStyles.fixToText}>
             <Button
               color={colorPalette.lightSecondary}
-              title='Search'
+              title={t('search')}
               onPress={() => this.searchCafeNames()}
             />
 
             {this.state.searched &&
               <Button
                 color={colorPalette.lightSecondary}
-                title='Reset search'
+                title={t('reset-search')}
                 onPress={() => this.resetSearch()}
               />}
           </View>
 
           {this.state.previousSearchTerm !== '' &&
             <Text style={baseStyles.regularText}>
-              Showing results for '{this.state.cafeSearchTerm}'
+              {t('showing-results-for')} '{this.state.cafeSearchTerm}'
             </Text>}
 
           {this.state.previousRating !== 0 &&
             <Text style={baseStyles.regularText}>
-              Filtered cafes to a minimum of {this.state.previousRating} stars
+              {t('filtered-cafes-phrase')} {this.state.previousRating} {t('stars')}
             </Text>}
 
           <FlatList

@@ -190,7 +190,7 @@ class NearbyCafes extends Component {
         <View style={baseStyles.mainContainer}>
           <View style={homeStyles.heading}>
             <Text style={baseStyles.logoText}>Nearby cafes</Text>
-            <Text>Minimum rating filter:</Text>
+            <Text>{t('minimum-rating-filter')}:</Text>
             <AirbnbRating
               defaultRating={this.state.ratingFilter}
               count={5}
@@ -217,7 +217,7 @@ class NearbyCafes extends Component {
                     showRating={false}
                   />
 
-                  <Text style={homeStyles.reviewBody}>Distance to venue: {item.distance} metres</Text>
+                  <Text style={homeStyles.reviewBody}>{t('distance-to-venue')}: {item.distance} {t('metres')}</Text>
 
                   <View style={homeStyles.fixToText}>
                     <Button

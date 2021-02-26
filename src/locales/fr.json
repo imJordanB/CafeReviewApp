@@ -31,5 +31,14 @@
     "confirm-change": "Confirmer le changement",
     "signing-out": "Déconnecter",
     "take-photo": "Prendre une photo",
-    "update-review": "Mettre à jour l'examen"
+    "update-review": "Mettre à jour l'examen",
+    "search-cafe-names": "Rechercher des noms de cafés",
+    "minimum-rating-filter": "Filtre d'évaluation minimum",
+    "distance-to-venue": "Distance du lieu",
+    "metres": "mètres",
+    "search": "Chercher",
+    "reset-search": "Réinitialiser la recherche",
+    "showing-results-for": "Affichage des résultats pour",
+    "filtered-cafes-phrase": "Cafés filtrés à un minimum de",
+    "stars": "étoiles"
 }
