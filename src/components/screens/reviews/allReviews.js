@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { Text, View, Alert, ActivityIndicator, Button, FlatList } from 'react-native'
+import { Text, View, Alert, ActivityIndicator, Button, FlatList, Image } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import { get, post, deleteEndpoint } from '../../../api'
 import { baseStyles, homeStyles, colorPalette } from '../../../styles/styles'
@@ -123,6 +123,7 @@ class AllReviews extends Component {
           <FlatList
             data={this.state.locationData.location_reviews}
             renderItem={({ item }) => {
+              const photoUri = 'http://10.0.2.2:3333/api/1.0.0/location/' + this.state.locationId + '/review/' + item.review_id + '/photo?timestamp=' + Date.now()
               return (
                 <View style={homeStyles.cafeShopRow}>
                   <AirbnbRating
@@ -130,6 +131,11 @@ class AllReviews extends Component {
                     count={5}
                     isDisabled
                     size={20}
+                  />
+
+                  <Image
+                    source={{ uri: photoUri }}
+                    style={{ width: 200, height: 200 }}
                   />
 
                   <Text style={homeStyles.reviewBody}>"{item.review_body}"</Text>
