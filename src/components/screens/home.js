@@ -103,16 +103,18 @@ class Home extends Component {
       console.log('cafe search:' + this.state.cafeSearchTerm)
 
       if (this.state.cafeSearchTerm !== '') {
-        this.setState({ previousSearchTerm: this.state.cafeSearchTerm })
+        this.setState({ previousSearchTerm: this.state.cafeSearchTerm, previousRating: 0 })
         searchQuery = '?q=' + this.state.cafeSearchTerm
         if (this.state.ratingFilter !== 0) {
           this.setState({ previousRating: this.state.ratingFilter })
           searchQuery += '&overall_rating=' + this.state.ratingFilter
         }
       } else if (this.state.ratingFilter !== '') {
-        this.setState({ previousRating: this.state.ratingFilter })
+        this.setState({ previousRating: this.state.ratingFilter, previousSearchTerm: '' })
         searchQuery = '?overall_rating=' + this.state.ratingFilter
       }
+
+      this.setState({ ratingFilter: 0, cafeSearchTerm: '' })
 
       console.log('Search query:' + searchQuery)
       this.getEndpoint('find' + searchQuery)
@@ -187,7 +189,7 @@ class Home extends Component {
 
           {this.state.previousSearchTerm !== '' &&
             <Text style={baseStyles.regularText}>
-              {t('showing-results-for')} '{this.state.cafeSearchTerm}'
+              {t('showing-results-for')} '{this.state.previousSearchTerm}'
             </Text>}
 
           {this.state.previousRating !== 0 &&
