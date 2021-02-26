@@ -146,7 +146,7 @@ class ChangeDetails extends Component {
             />
           </View>
 
-          <TouchableOpacity style={baseStyles.confirmBtn} onPress={() => this.changeDetails()}>
+          <TouchableOpacity ariaRole='button' style={baseStyles.confirmBtn} onPress={() => this.changeDetails()}>
             <Text style={baseStyles.confirmBtnText}>{t('confirm-change')}</Text>
           </TouchableOpacity>
         </View>

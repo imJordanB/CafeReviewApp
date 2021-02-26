@@ -150,6 +150,7 @@ class EditReview extends Component {
         </View>
 
         <TouchableOpacity
+          ariaRole='button'
           style={baseStyles.confirmBtn}
           onPress={() => this.updateReview()}
         >

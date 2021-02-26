@@ -146,7 +146,11 @@ class AddReview extends Component {
           />
         </View>
 
-        <TouchableOpacity style={baseStyles.confirmBtn} onPress={() => this.addReview()}>
+        <TouchableOpacity
+          ariaRole='button'
+          style={baseStyles.confirmBtn}
+          onPress={() => this.addReview()}
+        >
           <Text style={baseStyles.confirmBtnText}>{t('add-review')}</Text>
         </TouchableOpacity>
       </View>
