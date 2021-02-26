@@ -16,6 +16,9 @@ class Home extends Component {
       firstName: '',
       authToken: '',
       cafeSearchTerm: '',
+      ratingFilter: 0,
+      previousRating: 0,
+      previousSearchTerm: '',
       searched: false
     }
   }
@@ -90,12 +93,34 @@ class Home extends Component {
   }
 
   searchCafeNames () {
-    this.setState({ isLoading: true, searched: true })
-    this.getEndpoint('find?q=' + this.state.cafeSearchTerm)
+    if (this.state.cafeSearchTerm === '' && this.state.ratingFilter === '') {
+      Alert.alert('Nothing was entered, please specify what you would like to search')
+    } else {
+      this.setState({ isLoading: true, searched: true })
+
+      let searchQuery = ''
+
+      console.log('cafe search:' + this.state.cafeSearchTerm)
+
+      if (this.state.cafeSearchTerm !== '') {
+        this.setState({ previousSearchTerm: this.state.cafeSearchTerm })
+        searchQuery = '?q=' + this.state.cafeSearchTerm
+        if (this.state.ratingFilter !== 0) {
+          this.setState({ previousRating: this.state.ratingFilter })
+          searchQuery += '&overall_rating=' + this.state.ratingFilter
+        }
+      } else if (this.state.ratingFilter !== '') {
+        this.setState({ previousRating: this.state.ratingFilter })
+        searchQuery = '?overall_rating=' + this.state.ratingFilter
+      }
+
+      console.log('Search query:' + searchQuery)
+      this.getEndpoint('find' + searchQuery)
+    }
   }
 
   resetSearch () {
-    this.setState({ isLoading: true, searched: false })
+    this.setState({ isLoading: true, searched: false, previousRating: 0, ratingFilter: 0, cafeSearchTerm: '', previousSearchTerm: '' })
     this.getEndpoint('find')
   }
 
@@ -104,6 +129,10 @@ class Home extends Component {
       this.setState({ isLoading: true })
       this.getEndpoint('find')
     })
+  }
+
+  handleMinimumRatingFilter = (rating) => {
+    this.setState({ ratingFilter: rating })
   }
 
   render () {
@@ -130,6 +159,15 @@ class Home extends Component {
                 ariaLabel={t('first-name')}
               />
             </View>
+
+            <Text>Minimum rating filter:</Text>
+            <AirbnbRating
+              defaultRating={0}
+              count={5}
+              size={25}
+              showRating={false}
+              onFinishRating={this.handleMinimumRatingFilter}
+            />
           </View>
 
           <View style={homeStyles.fixToText}>
@@ -147,9 +185,14 @@ class Home extends Component {
               />}
           </View>
 
-          {this.state.searched &&
+          {this.state.previousSearchTerm !== '' &&
             <Text style={baseStyles.regularText}>
               Showing results for '{this.state.cafeSearchTerm}'
+            </Text>}
+
+          {this.state.previousRating !== 0 &&
+            <Text style={baseStyles.regularText}>
+              Filtered cafes to a minimum of {this.state.previousRating} stars
             </Text>}
 
           <FlatList

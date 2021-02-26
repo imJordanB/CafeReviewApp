@@ -156,7 +156,7 @@ class NearbyCafes extends Component {
 
   componentDidMount = async () => {
     this.props.navigation.addListener('focus', () => {
-      this.setState({ isLoading: true })
+      this.setState({ isLoading: true, ratingFilter: 0 })
       this.findCoordinates().then(() => {
         if (this.state.locationPermission) {
           this.fetchAllLocations('find').then(() =>
@@ -190,7 +190,7 @@ class NearbyCafes extends Component {
         <View style={baseStyles.mainContainer}>
           <View style={homeStyles.heading}>
             <Text style={baseStyles.logoText}>Nearby cafes</Text>
-            <Text>Minimum rating:</Text>
+            <Text>Minimum rating filter:</Text>
             <AirbnbRating
               defaultRating={this.state.ratingFilter}
               count={5}
